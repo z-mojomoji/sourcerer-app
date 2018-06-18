@@ -9,12 +9,7 @@ import app.model.DiffFile
 
 class FSharpExtractor : ExtractorInterface {
     companion object {
-        const val LANGUAGE_NAME = Lang.FSharp
-        // The behaviour of csharp library classifier is the same as for csharp.
-        val LIBRARIES = ExtractorInterface.getLibraries("cs")
-        val evaluator by lazy {
-            ExtractorInterface.getLibraryClassifier("csharp")
-        }
+        const val LANGUAGE_NAME = Lang.FSHARP
         val importRegex = Regex("""^.*open\s+(\w+[.\w+]*)""")
         val commentRegex = Regex("""^([^\n]*//)[^\n]*""")
         val extractImportRegex = Regex("""open\s+(\w+[.\w+]*)""")
@@ -31,12 +26,7 @@ class FSharpExtractor : ExtractorInterface {
         fileContent.forEach {
             val res = extractImportRegex.find(it)
             if (res != null) {
-                val importedName = res.groupValues[1]
-                LIBRARIES.forEach { library ->
-                    if (importedName.startsWith(library)) {
-                        imports.add(library)
-                    }
-                }
+                imports.add(res.groupValues[1])
             }
         }
 
@@ -53,8 +43,7 @@ class FSharpExtractor : ExtractorInterface {
 
     override fun getLineLibraries(line: String,
                                   fileLibraries: List<String>): List<String> {
-
-        return super.getLineLibraries(line, fileLibraries, evaluator,
-            LANGUAGE_NAME)
+        // The behaviour of csharp library classifier is the same as for csharp.
+        return super.getLineLibraries(line, fileLibraries, "csharp")
     }
 }

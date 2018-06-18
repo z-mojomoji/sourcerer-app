@@ -9,10 +9,7 @@ import app.model.DiffFile
 
 class ObjectiveCExtractor : ExtractorInterface {
     companion object {
-        const val LANGUAGE_NAME = Lang.ObjectiveC
-        val evaluator by lazy {
-            ExtractorInterface.getLibraryClassifier(LANGUAGE_NAME)
-        }
+        const val LANGUAGE_NAME = Lang.OBJECTIVEC
         val importRegex = Regex("""^([^\n]*[#@](import|include))\s[^\n]*""")
         val commentRegex = Regex("""^([^\n]*//)[^\n]*""")
         val sharpImportIncludeRegex =
@@ -49,7 +46,6 @@ class ObjectiveCExtractor : ExtractorInterface {
     override fun getLineLibraries(line: String,
                                   fileLibraries: List<String>): List<String> {
 
-        return super.getLineLibraries(line, fileLibraries, evaluator,
-            LANGUAGE_NAME)
+        return super.getLineLibraries(line, fileLibraries, LANGUAGE_NAME)
     }
 }

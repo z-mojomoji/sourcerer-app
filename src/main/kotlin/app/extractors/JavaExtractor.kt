@@ -9,8 +9,7 @@ import app.model.DiffFile
 
 class JavaExtractor : ExtractorInterface {
     companion object {
-        const val LANGUAGE_NAME = Lang.Java
-        val LIBRARIES = ExtractorInterface.getLibraries("java")
+        const val LANGUAGE_NAME = Lang.JAVA
         val KEYWORDS = listOf("abstract", "continue", "for", "new", "switch",
             "assert", "default", "goto", "package", "synchronized", "boolean",
             "do", "if", "private", "this", "break", "double", "implements",
@@ -19,9 +18,6 @@ class JavaExtractor : ExtractorInterface {
             "extends", "int", "short", "try", "char", "final", "interface",
             "static", "void", "class", "finally", "long", "strictfp",
             "volatile", "const", "float", "native", "super", "while")
-        val evaluator by lazy {
-            ExtractorInterface.getLibraryClassifier(LANGUAGE_NAME)
-        }
         val importRegex = Regex("""^(.*import)\s[^\n]*""")
         val commentRegex = Regex("""^([^\n]*//)[^\n]*""")
         val packageRegex = Regex("""^(.*package)\s[^\n]*""")
@@ -67,11 +63,7 @@ class JavaExtractor : ExtractorInterface {
             val res = extractImportRegex.find(it)
             if (res != null) {
                 val importedName = res.groupValues[1]
-                LIBRARIES.forEach { library ->
-                    if (importedName.startsWith(library)) {
-                        imports.add(library)
-                    }
-                }
+                imports.add(importedName)
             }
         }
 
@@ -88,7 +80,6 @@ class JavaExtractor : ExtractorInterface {
     override fun getLineLibraries(line: String,
                                   fileLibraries: List<String>): List<String> {
 
-        return super.getLineLibraries(line, fileLibraries, evaluator,
-            LANGUAGE_NAME)
+        return super.getLineLibraries(line, fileLibraries, LANGUAGE_NAME)
     }
 }

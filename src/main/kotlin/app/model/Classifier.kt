@@ -1,7 +1,7 @@
 // Copyright 2017 Sourcerer Inc. All Rights Reserved.
 // Author: Liubov Yaronskaya (lyaronskaya@sourcerer.io)
 
-package app.extractors
+package app.model
 
 import app.ModelsProtos
 import com.google.protobuf.InvalidProtocolBufferException

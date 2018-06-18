@@ -4,95 +4,21 @@
 
 package app.extractors
 
-import app.BuildConfig
-import app.Logger
-import app.model.DiffFile
-import app.model.CommitStats
-import app.utils.FileHelper
-import java.io.InputStream
-import java.io.FileOutputStream
-import org.apache.http.client.methods.HttpGet
-import org.apache.http.impl.client.HttpClientBuilder
+import app.model.*
 
 interface ExtractorInterface {
     companion object {
-        private val librariesCache = hashMapOf<String, Set<String>>()
-        private val classifiersCache = hashMapOf<String, Classifier>()
-        private val modelsDir = "models"
-        private val pbExt = ".pb"
+        private val classifiersCache = hashMapOf<String, ClassifiersPull>()
+        val librariesMetaStorage = LibraryMetaStorage("libraries")
         val stringRegex = Regex("""(".+?"|'.+?')""")
         val splitRegex =
                 Regex("""\s|,|;|\*|\n|\(|\)|\[|]|\{|}|\+|=|&|\$|!=|\.|>|<|#|@|:|\?|!""")
 
-        private fun getResource(path: String): InputStream {
-            return ExtractorInterface::class.java.classLoader
-                .getResourceAsStream(path)
-        }
-
-        fun getLibraries(name: String): Set<String> {
-            if (librariesCache.containsKey(name)) {
-                return librariesCache[name]!!
+        fun getLibraryClassifier(language: String): ClassifiersPull {
+            if (!classifiersCache.containsKey(language)) {
+                classifiersCache[language] = ClassifiersPull(language)
             }
-            val libraries = getResource("data/libraries/${name}_libraries.txt")
-                .bufferedReader().readLines().toSet()
-            librariesCache.put(name, libraries)
-            return libraries
-        }
-
-        fun getMultipleImportsToLibraryMap(name: String): Map<String, String> {
-            val importToLibrary = getResource("data/imports/$name.txt")
-                    .bufferedReader().readLines().map {
-                val mapping = it.split(":")
-                Pair(mapping[0], mapping[1])
-            }.toMap()
-            return importToLibrary
-        }
-
-        private fun downloadModel(name: String) {
-            val url = BuildConfig.LIBRARY_MODELS_URL + "$name.pb"
-
-            val file = FileHelper.getFile(name + pbExt, modelsDir)
-            val builder = HttpClientBuilder.create()
-            val client = builder.build()
-            try {
-                client.execute(HttpGet(url)).use { response ->
-                    val entity = response.entity
-                    if (entity != null) {
-                        FileOutputStream(file).use { outstream ->
-                            entity.writeTo(outstream)
-                            outstream.flush()
-                            outstream.close()
-                        }
-                    }
-
-                }
-            }
-            catch (e: Exception) {
-                Logger.error(e, "Failed to download $name model")
-            }
-        }
-
-        fun getLibraryClassifier(name: String): Classifier {
-            if (classifiersCache.containsKey(name)) {
-                return classifiersCache[name]!!
-            }
-
-            val fileName = name + pbExt
-            if (FileHelper.notExists(fileName, modelsDir)) {
-                Logger.info { "Downloading " + fileName }
-                downloadModel(name)
-                Logger.info { "Downloaded " + fileName }
-            }
-
-            Logger.info { "Loading $name evaluator" }
-
-            val bytesArray = FileHelper.getFile(fileName, modelsDir).readBytes()
-            val classifier = Classifier(bytesArray)
-            classifiersCache.put(name, classifier)
-
-            Logger.info { "$name evaluator ready" }
-
-            return classifier
+            return classifiersCache[language]!!
         }
     }
 
@@ -130,38 +56,40 @@ interface ExtractorInterface {
             return langStats
         }
 
-        oldFilesImports.forEach { oldLibraryToCount[it] = 0}
-        newFilesImports.forEach { newLibraryToCount[it] = 0}
-
         files.filter { file -> file.language.isNotBlank() }
             .forEach { file ->
+                val oldFileImportedLibs = file.old.imports.map { import ->
+                    librariesMetaStorage.mapImportToIndex(import, file.language)
+                }.filterNotNull()
+                val newFileImportedLibs = file.new.imports.map { import ->
+                    librariesMetaStorage.mapImportToIndex(import, file.language)
+                }.filterNotNull()
+
                 val oldFileLibraries = mutableListOf<String>()
                 file.getAllDeleted().forEach {
-                    val lineLibs = getLineLibraries(it, file.old.imports)
+                    val lineLibs = getLineLibraries(it, oldFileImportedLibs)
                     oldFileLibraries.addAll(lineLibs)
                 }
-                file.old.imports.forEach { import ->
-                    val numLines = oldFileLibraries.count { it == import }
-                    oldLibraryToCount[import] =
-                        oldLibraryToCount[import] as Int + numLines
+                oldFileImportedLibs.forEach { id ->
+                    val numLines = oldFileLibraries.count { it == id }
+                    oldLibraryToCount[id] =
+                        oldLibraryToCount.getOrDefault(id, 0) + numLines
                 }
 
                 val newFileLibraries = mutableListOf<String>()
                 file.getAllAdded().forEach {
-                    val lineLibs = getLineLibraries(it, file.new.imports)
+                    val lineLibs = getLineLibraries(it, newFileImportedLibs)
                     newFileLibraries.addAll(lineLibs)
                 }
-                file.new.imports.forEach { import ->
-                    val numLines = newFileLibraries.count { it == import }
-                    newLibraryToCount[import] =
-                            newLibraryToCount[import] as Int + numLines
+                newFileImportedLibs.forEach { id ->
+                    val numLines = newFileLibraries.count { it == id }
+                    newLibraryToCount[id] =
+                        newLibraryToCount.getOrDefault(id, 0) + numLines
                 }
             }
+        val allExtractedLibraries = oldLibraryToCount.keys + newLibraryToCount.keys
 
-        val allImports = mutableSetOf<String>()
-        allImports.addAll(oldFilesImports + newFilesImports)
-
-        val libraryStats = allImports.map { CommitStats(
+        val libraryStats = allExtractedLibraries.map { CommitStats(
             numLinesAdded = newLibraryToCount.getOrDefault(it, 0),
             numLinesDeleted = oldLibraryToCount.getOrDefault(it, 0),
             type = Extractor.TYPE_LIBRARY,
@@ -190,43 +118,9 @@ interface ExtractorInterface {
     }
 
     fun getLineLibraries(line: String,
-                         fileLibraries: List<String>,
-                         evaluator: Classifier,
-                         languageLabel: String): List<String> {
-        val probabilities = evaluator.evaluate(tokenize(line))
-        val libraries = evaluator.getCategories()
-
-        val maxProbability = probabilities.max() as Double
-        val maxProbabilityCategory =
-                libraries[probabilities.indexOf(maxProbability)]
-        val selectedCategories = libraries.filter {
-            probabilities[libraries.indexOf(it)] >= 0.2 * maxProbability
-        }
-
-        // For languages with small number of libraries(e.g. less than 20).
-        // When found high probability then there won't be two or more
-        // values with high probability. And vise versa,
-        // if several values with high probability are found
-        // then the prediction is unsure. So we don't take them into account.
-        if (libraries.size < 20 && selectedCategories.size > 1) {
-            return emptyList()
-        }
-
-        if (maxProbabilityCategory == languageLabel) {
-            return emptyList()
-        }
-
-        // For C language.
-        // Consider line with language label being the one with high probability
-        // as not having library.
-        // Keep it while the number of libraries is small.
-        if (languageLabel == CExtractor.LANGUAGE_NAME &&
-                languageLabel in selectedCategories) {
-            return emptyList()
-        }
-
-        val lineLibraries = fileLibraries.filter { it in selectedCategories }
-        return lineLibraries
+                         fileLibraries: List<String>, language: String): List<String> {
+        val clfPull = getLibraryClassifier(language)
+        return clfPull.estimate(tokenize(line), fileLibraries)
     }
 
 }

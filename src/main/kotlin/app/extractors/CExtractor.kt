@@ -10,9 +10,6 @@ import app.model.DiffFile
 class CExtractor : ExtractorInterface {
     companion object {
         const val LANGUAGE_NAME = Lang.C
-        val evaluator by lazy {
-            ExtractorInterface.getLibraryClassifier(LANGUAGE_NAME)
-        }
         val importRegex = Regex("""^([^\n]*#include)\s[^\n]*""")
         val commentRegex = Regex("""^([^\n]*//)[^\n]*""")
         val extractImportRegex =
@@ -47,6 +44,6 @@ class CExtractor : ExtractorInterface {
     override fun getLineLibraries(line: String,
                                   fileLibraries: List<String>): List<String> {
 
-        return super.getLineLibraries(line, fileLibraries, evaluator, LANGUAGE_NAME)
+        return super.getLineLibraries(line, fileLibraries, LANGUAGE_NAME)
     }
 }

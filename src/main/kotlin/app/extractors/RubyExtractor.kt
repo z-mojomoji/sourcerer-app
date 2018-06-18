@@ -9,10 +9,7 @@ import app.model.DiffFile
 
 class RubyExtractor : ExtractorInterface {
     companion object {
-        const val LANGUAGE_NAME = Lang.Ruby
-        val evaluator by lazy {
-            ExtractorInterface.getLibraryClassifier(LANGUAGE_NAME)
-        }
+        const val LANGUAGE_NAME = Lang.RUBY
         val importRegex = Regex("""(require\s+'(\w+)'|load\s+'(\w+)\.\w+')""")
         val commentRegex = Regex("""^([^\n]*#)[^\n]*""")
         val extractImportRegex = Regex("""(require\s+'(\w+)'|load\s+'(\w+)\.\w+')""")
@@ -34,9 +31,6 @@ class RubyExtractor : ExtractorInterface {
             }
         }
 
-        // TODO(lyaronskaya): read external files
-        imports.add("rails")
-
         return imports.toList()
     }
 
@@ -49,7 +43,6 @@ class RubyExtractor : ExtractorInterface {
     override fun getLineLibraries(line: String,
                                   fileLibraries: List<String>): List<String> {
 
-        return super.getLineLibraries(line, fileLibraries, evaluator,
-            LANGUAGE_NAME)
+        return super.getLineLibraries(line, fileLibraries, LANGUAGE_NAME)
     }
 }

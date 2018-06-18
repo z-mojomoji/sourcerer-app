@@ -9,12 +9,7 @@ import app.model.DiffFile
 
 class CppExtractor : ExtractorInterface {
     companion object {
-        const val LANGUAGE_NAME = Lang.CPlusPlus
-        val evaluator by lazy {
-            ExtractorInterface.getLibraryClassifier(LANGUAGE_NAME)
-        }
-        val MULTI_IMPORT_TO_LIB =
-            ExtractorInterface.getMultipleImportsToLibraryMap(LANGUAGE_NAME)
+        const val LANGUAGE_NAME = Lang.CPP
         val importRegex = Regex("""^([^\n]*#include)\s[^\n]*""")
         val commentRegex = Regex("""^([^\n]*//)[^\n]*""")
         val extractImportRegex = Regex("""#include\s+["<](\w+)[/\w+]*(\.\w+)?[">]""")
@@ -36,15 +31,7 @@ class CppExtractor : ExtractorInterface {
                 imports.add(lineLib)
             }
         }
-        val libraries = imports.map { MULTI_IMPORT_TO_LIB.getOrDefault(it, it) }
-                               .map { import -> when {
-                                   import.startsWith("Q") -> "Qt"
-                                   import.startsWith("Lzma") -> "Lzma"
-                                   import.startsWith("Ogre") -> "Ogre"
-                                   else -> import
-                               }}
-                               .toSet().toList()
-        return libraries
+        return imports.toSet().toList()
     }
 
     override fun tokenize(line: String): List<String> {
@@ -55,8 +42,6 @@ class CppExtractor : ExtractorInterface {
 
     override fun getLineLibraries(line: String,
                                   fileLibraries: List<String>): List<String> {
-
-        return super.getLineLibraries(line, fileLibraries, evaluator,
-            LANGUAGE_NAME)
+        return super.getLineLibraries(line, fileLibraries, LANGUAGE_NAME)
     }
 }

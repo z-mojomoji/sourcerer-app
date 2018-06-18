@@ -9,12 +9,7 @@ import app.model.DiffFile
 
 class PythonExtractor : ExtractorInterface {
     companion object {
-        const val LANGUAGE_NAME = Lang.Python
-        val evaluator by lazy {
-            ExtractorInterface.getLibraryClassifier(LANGUAGE_NAME)
-        }
-        val MULTI_IMPORT_TO_LIB =
-                ExtractorInterface.getMultipleImportsToLibraryMap(LANGUAGE_NAME)
+        const val LANGUAGE_NAME = Lang.PYTHON
         val COMPREHENSION_MAP = "map"
         val COMPREHENSION_LIST = "list"
         val docImportRegex = Regex("""^([^\n]*#|\s*\"\"\"|\s*import|\s*from)[^\n]*""")
@@ -69,12 +64,11 @@ class PythonExtractor : ExtractorInterface {
             }
         }
 
-        var libraries = imports.map { MULTI_IMPORT_TO_LIB.getOrDefault(it, it) }
-            .filter { !it.endsWith("pb")}.toMutableList()
-        if (libraries.size < imports.size) {
-            libraries.add("protobuf")
+        var filteredImports = imports.filter { !it.endsWith("_pb") && !it.endsWith("_pb2")}.toMutableList()
+        if (filteredImports.size < imports.size) {
+            filteredImports.add("pb")
         }
-        return libraries
+        return filteredImports
 
     }
 
@@ -87,7 +81,6 @@ class PythonExtractor : ExtractorInterface {
     override fun getLineLibraries(line: String,
                                   fileLibraries: List<String>): List<String> {
 
-        return super.getLineLibraries(line, fileLibraries, evaluator,
-            LANGUAGE_NAME)
+        return super.getLineLibraries(line, fileLibraries, LANGUAGE_NAME)
     }
 }
