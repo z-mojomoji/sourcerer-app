@@ -42,7 +42,9 @@ class RubyExtractor : ExtractorInterface {
 
     override fun getLineLibraries(line: String,
                                   fileLibraries: List<String>): List<String> {
+        // TODO(lyaronskaya): Case with no imports.
+        val libraries = fileLibraries + "rb.rails"
 
-        return super.getLineLibraries(line, fileLibraries, LANGUAGE_NAME)
+        return super.getLineLibraries(line, libraries, LANGUAGE_NAME)
     }
 }

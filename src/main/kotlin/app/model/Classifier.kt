@@ -15,7 +15,7 @@ class Classifier {
     var biases: Map<String, Float>
 
     @Throws(InvalidParameterException::class)
-    constructor(proto: ModelsProtos.Classifier) {
+    constructor(proto: ClassifierProtos.Classifier) {
         tokens = proto.tokensList
         libraries = proto.librariesList
         idf = tokens.zip(proto.idfList).toMap()
@@ -25,7 +25,7 @@ class Classifier {
     }
 
     @Throws(InvalidProtocolBufferException::class)
-    constructor(bytes: ByteArray) : this(ModelsProtos.Classifier
+    constructor(bytes: ByteArray) : this(ClassifierProtos.Classifier
         .parseFrom(bytes))
 
     fun evaluate(input: List<String>): List<Double> {
@@ -45,10 +45,6 @@ class Classifier {
         val probs = output.map { it / norm2 }
 
         return probs
-    }
-
-    fun getCategories(): List<String> {
-        return libraries
     }
 
     private fun <T> List<T>.partition(size: Int): List<List<T>> {

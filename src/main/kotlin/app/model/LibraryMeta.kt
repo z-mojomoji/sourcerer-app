@@ -4,8 +4,6 @@
 package app.model
 
 import app.Logger
-import com.beust.klaxon.Klaxon
-import com.beust.klaxon.JsonReader
 import java.io.FileReader
 
 data class LibraryMeta(val id: String,
@@ -48,14 +46,6 @@ class LibraryMetaStorage {
             importToIndex[language] = result
         }
         return importToIndex[language]!!
-    }
-
-    fun getIndexes(language: String): List<String> {
-        if (language !in languages) {
-            return emptyList()
-        }
-        val result = libraries[language]!!.map { it.id }
-        return result
     }
 
     fun getImports(language: String): List<String> {

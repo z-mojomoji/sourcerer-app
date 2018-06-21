@@ -8,15 +8,15 @@ import app.model.*
 
 interface ExtractorInterface {
     companion object {
-        private val classifiersCache = hashMapOf<String, ClassifiersPull>()
+        private val classifiersCache = hashMapOf<String, ClassifierManager>()
         val librariesMetaStorage = LibraryMetaStorage("libraries")
         val stringRegex = Regex("""(".+?"|'.+?')""")
         val splitRegex =
                 Regex("""\s|,|;|\*|\n|\(|\)|\[|]|\{|}|\+|=|&|\$|!=|\.|>|<|#|@|:|\?|!""")
 
-        fun getLibraryClassifier(language: String): ClassifiersPull {
+        fun getLibraryClassifier(language: String): ClassifierManager {
             if (!classifiersCache.containsKey(language)) {
-                classifiersCache[language] = ClassifiersPull(language)
+                classifiersCache[language] = ClassifierManager(language)
             }
             return classifiersCache[language]!!
         }
