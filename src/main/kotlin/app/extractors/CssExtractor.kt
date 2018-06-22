@@ -27,7 +27,7 @@ class CssExtractor : ExtractorInterface {
 
             CommitStats(numLinesAdded = result[0],
                         numLinesDeleted = result[1],
-                        type = Extractor.TYPE_LIBRARY,
+                        type = ExtractorInterface.TYPE_LIBRARY,
                         tech = extension)
         }.filter { it.numLinesAdded > 0 || it.numLinesDeleted > 0 }
 

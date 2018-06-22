@@ -8,6 +8,12 @@ import app.model.*
 
 interface ExtractorInterface {
     companion object {
+        const val TYPE_LANGUAGE = 1
+        const val TYPE_LIBRARY = 2
+        const val TYPE_KEYWORD = 3
+        const val TYPE_SYNTAX = 4
+        const val SEPARATOR = ">"
+
         private val classifierManager = ClassifierManager()
         // TODO (anatoly): Download libraries.
         val librariesMeta = LibraryMeta(hashMapOf())
@@ -49,7 +55,7 @@ interface ExtractorInterface {
                     total + file.getAllAdded().size },
                 numLinesDeleted = files.fold(0) { total, file ->
                     total + file.getAllDeleted().size },
-                type = Extractor.TYPE_LANGUAGE,
+                type = TYPE_LANGUAGE,
                 tech = language)
             }
     }
@@ -63,7 +69,7 @@ interface ExtractorInterface {
         return allLibsIds.map { libId -> CommitStats(
             numLinesAdded = newLibs.getOrDefault(libId, 0),
             numLinesDeleted = oldLibs.getOrDefault(libId, 0),
-            type = Extractor.TYPE_LIBRARY,
+            type = TYPE_LIBRARY,
             tech = libId
         ) }.filter { it.numLinesAdded > 0 || it.numLinesDeleted > 0 }
     }

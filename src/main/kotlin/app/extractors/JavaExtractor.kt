@@ -44,8 +44,10 @@ class JavaExtractor : ExtractorInterface {
                 stats.add(CommitStats(
                     numLinesAdded = totalAdded,
                     numLinesDeleted = totalDeleted,
-                    type = Extractor.TYPE_KEYWORD,
-                    tech = LANGUAGE_NAME + Extractor.SEPARATOR + keyword))
+                    type = ExtractorInterface.TYPE_KEYWORD,
+                    tech = LANGUAGE_NAME + ExtractorInterface.SEPARATOR +
+                        keyword
+                ))
             }
         }
 

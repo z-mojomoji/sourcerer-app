@@ -40,15 +40,17 @@ class PythonExtractor : ExtractorInterface {
 
         if (mapAllAdded > 0 || mapAllDeleted > 0) {
             stats.add(CommitStats(
-                mapAllAdded, mapAllDeleted, Extractor.TYPE_SYNTAX,
-                tech = LANGUAGE_NAME + Extractor.SEPARATOR + COMPREHENSION_MAP
+                mapAllAdded, mapAllDeleted, ExtractorInterface.TYPE_SYNTAX,
+                tech = LANGUAGE_NAME + ExtractorInterface.SEPARATOR +
+                    COMPREHENSION_MAP
             ))
         }
 
         if (listAllAdded > 0 || listAllDeleted > 0) {
             stats.add(CommitStats(
-                listAllAdded, listAllDeleted, Extractor.TYPE_SYNTAX,
-                tech = LANGUAGE_NAME + Extractor.SEPARATOR + COMPREHENSION_LIST
+                listAllAdded, listAllDeleted, ExtractorInterface.TYPE_SYNTAX,
+                tech = LANGUAGE_NAME + ExtractorInterface.SEPARATOR +
+                    COMPREHENSION_LIST
             ))
         }
 
