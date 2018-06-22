@@ -12,9 +12,11 @@ class PythonExtractor : ExtractorInterface {
         const val LANGUAGE_NAME = Lang.PYTHON
         const val COMPREHENSION_MAP = "map"
         const val COMPREHENSION_LIST = "list"
-        val docImportRegex = Regex("""^([^\n]*#|\s*\"\"\"|\s*import|\s*from)[^\n]*""")
+        val docImportRegex = Regex("""^([^\n]*#|\s*\"\"\"|\s*import|""" +
+            """\s*from)[^\n]*""")
         val commentRegex = Regex("""^(.*#).*""")
-        val extractImportRegex = Regex("""(from\s+(\w+)[.\w+]*\s+import|import\s+(\w+(,\s*\w+)*))(as\s+)*""")
+        val extractImportRegex = Regex("""(from\s+(\w+)[.\w+]*\s+import|""" +
+            """import\s+(\w+(,\s*\w+)*))(as\s+)*""")
         val mapRegex = Regex("""(map\([^,]+?,)""")
         val lineEndRegex = Regex(""",\s*""")
     }

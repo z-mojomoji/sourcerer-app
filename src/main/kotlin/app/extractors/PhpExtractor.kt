@@ -7,7 +7,8 @@ package app.extractors
 class PhpExtractor : ExtractorInterface {
     companion object {
         const val LANGUAGE_NAME = Lang.PHP
-        val importRegex = Regex("""^(.*require|require_once|include|include_once|use)\s[^\n]*""")
+        val importRegex = Regex("""^(.*require|require_once|include|""" +
+            """include_once|use)\s[^\n]*""")
         val commentRegex = Regex("""^([^\n]*//)[^\n]*""")
         val useRegex = Regex("""use\s+(\w+)[\\\w+]*""")
         val requireIncludeRegex = Regex("""(require|require_once|include|""" +

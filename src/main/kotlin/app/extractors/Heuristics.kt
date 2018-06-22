@@ -335,8 +335,9 @@ val HeuristicsMap = mapOf<String, (String) -> ExtractorInterface?>(
         CppExtractor()
     },
     "cgi" to { buf ->
-        if (Perl5Regex.containsMatchIn(buf)) CommonExtractor(Lang.PERL)
-        else null
+        if (Perl5Regex.containsMatchIn(buf)) {
+            CommonExtractor(Lang.PERL)
+        } else null
     },
     "cl" to { _ ->
         CommonExtractor(Lang.COMMONLISP)
@@ -360,8 +361,11 @@ val HeuristicsMap = mapOf<String, (String) -> ExtractorInterface?>(
         CommonExtractor(Lang.CLOJURE)
     },
     "cls" to { buf ->
-        if (TeXRegex.containsMatchIn(buf)) CommonExtractor(Lang.TEX)
-        else CommonExtractor(Lang.VISUALBASIC)
+        if (TeXRegex.containsMatchIn(buf)) {
+            CommonExtractor(Lang.TEX)
+        } else {
+            CommonExtractor(Lang.VISUALBASIC)
+        }
     },
     "cob" to { _ ->
         CommonExtractor(Lang.COBOL)
@@ -382,8 +386,11 @@ val HeuristicsMap = mapOf<String, (String) -> ExtractorInterface?>(
         CommonExtractor(Lang.SQL)
     },
     "cs" to { buf ->
-        if (SmalltalkRegex.containsMatchIn(buf)) CommonExtractor(Lang.SMALLTALK)
-        else CSharpExtractor()
+        if (SmalltalkRegex.containsMatchIn(buf)) {
+            CommonExtractor(Lang.SMALLTALK)
+        } else {
+            CSharpExtractor()
+        }
     },
     "cshtml" to { _ ->
         CSharpExtractor()

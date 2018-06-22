@@ -12,6 +12,7 @@ class GoExtractor : ExtractorInterface {
         val singleImportRegex = Regex("""import\s+"(\w+)"""")
         val multipleImportRegex = Regex("""import[\s\t\n]+\((.+?)\)""",
                 RegexOption.DOT_MATCHES_ALL)
+        val separatorsRegex = Regex("""(\t+|\n+|\s+|")""")
     }
 
     override fun extractImports(fileContent: List<String>): List<String> {
@@ -27,11 +28,14 @@ class GoExtractor : ExtractorInterface {
         val contentJoined = fileContent.joinToString(separator = "")
         multipleImportRegex.findAll(contentJoined).forEach { matchResult ->
             imports.addAll(matchResult.groupValues.last()
-                .split(Regex("""(\t+|\n+|\s+|")"""))
+                .split(separatorsRegex)
                 .filter { it.isNotEmpty() }
-                .map { it -> it.replace("\"", "") }
-                .map { it ->  if (it.contains("github.com")) it.split("/")[2]
-                    else it})
+                .map { it.replace("\"", "") }
+                .map {
+                    if (it.contains("github.com")) {
+                        it.split("/")[2]
+                    } else it
+                })
         }
 
         return imports.toList()

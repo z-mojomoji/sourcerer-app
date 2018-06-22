@@ -9,7 +9,8 @@ class RubyExtractor : ExtractorInterface {
         const val LANGUAGE_NAME = Lang.RUBY
         val importRegex = Regex("""(require\s+'(\w+)'|load\s+'(\w+)\.\w+')""")
         val commentRegex = Regex("""^([^\n]*#)[^\n]*""")
-        val extractImportRegex = Regex("""(require\s+'(\w+)'|load\s+'(\w+)\.\w+')""")
+        val extractImportRegex =
+            Regex("""(require\s+'(\w+)'|load\s+'(\w+)\.\w+')""")
     }
 
     override fun extractImports(fileContent: List<String>): List<String> {
