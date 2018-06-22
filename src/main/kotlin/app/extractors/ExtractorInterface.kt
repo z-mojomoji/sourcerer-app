@@ -9,7 +9,9 @@ import app.model.*
 interface ExtractorInterface {
     companion object {
         private val classifierManager = ClassifierManager()
-        // TODO (anatoly): Download libraries. val librariesMeta =
+        // TODO (anatoly): Download libraries.
+        val librariesMeta = LibraryMeta(hashMapOf())
+
         val stringRegex = Regex("""(".+?"|'.+?')""")
         val splitRegex = Regex("""\s|,|;|\*|\n|\(|\)|\[|]|\{|}|\+|=|&|\$|!=|\.|>|<|#|@|:|\?|!""")
     }
@@ -110,8 +112,7 @@ interface ExtractorInterface {
         return null
     }
 
-    fun mapImportToIndex(import: String, lang: String): String {
-        // TODO(anatoly): Implement using library meta info.
-        return import
+    fun mapImportToIndex(import: String, lang: String): String? {
+        return librariesMeta.importToIndexMap[lang]?.get(import)
     }
 }

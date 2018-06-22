@@ -1,6 +1,7 @@
 // Copyright 2018 Sourcerer Inc. All Rights Reserved.
 // Author: Tuomas Hietanen
 // Author: Liubov Yaronskaya (lyaronskaya@sourcerer.io)
+// Author: Anatoly Kislov (anatoly@sourcerer.io)
 
 package app.extractors
 
@@ -31,10 +32,9 @@ class FSharpExtractor : ExtractorInterface {
         return super.tokenize(newLine)
     }
 
-    override fun mapImportToIndex(import: String, lang: String): String {
+    override fun mapImportToIndex(import: String, lang: String): String? {
         // The behaviour of fsharp library classifier is the same as for csharp.
-        // TODO(anatoly): Use "csharp" classifier.
-        return import
+        return super.mapImportToIndex(import, Lang.CSHARP)
     }
 
     override fun getLanguageName(): String? {
