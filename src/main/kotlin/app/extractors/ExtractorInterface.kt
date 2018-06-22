@@ -14,21 +14,27 @@ interface ExtractorInterface {
         val splitRegex = Regex("""\s|,|;|\*|\n|\(|\)|\[|]|\{|}|\+|=|&|\$|!=|\.|>|<|#|@|:|\?|!""")
     }
 
-    fun determineLibs(line: String,
-                      fileLibraries: List<String>): List<String> {
-        val language = getLanguageName()
-        if (language != null) {
-            return classifierManager.estimate(tokenize(line), fileLibraries)
+    // Identify libs used in a line with classifiers.
+    fun determineLibs(line: String, importedLibs: List<String>): List<String> {
+        val lang = getLanguageName()
+        if (lang != null) {
+            return classifierManager.estimate(tokenize(line), importedLibs)
         }
-
         return listOf()
     }
 
+    // Should be defined for each language otherwise libs extraction disabled.
     fun extractImports(fileContent: List<String>): List<String> {
         return listOf()
     }
 
+    // Should be defined for additional statistics like keywords.
     fun extract(files: List<DiffFile>): List<CommitStats> {
+        val lang = getLanguageName()
+        if (lang != null) {
+            files.forEach { file -> file.lang = lang }
+        }
+
         return extractLangStats(files) + extractLibStats(files)
     }
 
@@ -91,8 +97,8 @@ interface ExtractorInterface {
     }
 
     fun tokenize(line: String): List<String> {
-        val newLine = stringRegex.replace(line, "")
         // TODO(lyaronskaya): Multiline comment regex.
+        val newLine = stringRegex.replace(line, "")
         val tokens = splitRegex.split(newLine).filter {
             it.isNotBlank() && !it.contains('"') && !it.contains('\'') &&
                 it != "-" && it != "@"

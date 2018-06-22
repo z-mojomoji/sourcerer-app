@@ -25,8 +25,6 @@ class JavaExtractor : ExtractorInterface {
     }
 
     override fun extract(files: List<DiffFile>): List<CommitStats> {
-        files.map { file -> file.lang = LANGUAGE_NAME }
-
         val stats = super.extract(files).toMutableList()
 
         val added = files.fold(mutableListOf<String>(), { total, file ->

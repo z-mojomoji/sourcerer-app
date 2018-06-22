@@ -4,9 +4,6 @@
 
 package app.extractors
 
-import app.model.CommitStats
-import app.model.DiffFile
-
 class GoExtractor : ExtractorInterface {
     companion object {
         const val LANGUAGE_NAME = Lang.GO
@@ -15,11 +12,6 @@ class GoExtractor : ExtractorInterface {
         val singleImportRegex = Regex("""import\s+"(\w+)"""")
         val multipleImportRegex = Regex("""import[\s\t\n]+\((.+?)\)""",
                 RegexOption.DOT_MATCHES_ALL)
-    }
-
-    override fun extract(files: List<DiffFile>): List<CommitStats> {
-        files.map { file -> file.lang = LANGUAGE_NAME }
-        return super.extract(files)
     }
 
     override fun extractImports(fileContent: List<String>): List<String> {

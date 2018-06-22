@@ -4,27 +4,17 @@
 
 package app.extractors
 
-import app.model.CommitStats
-import app.model.DiffFile
-
 class JavascriptExtractor : ExtractorInterface {
     companion object {
         const val LANGUAGE_NAME = Lang.JAVASCRIPT
-        val splitRegex =
-                Regex("""\s+|,|;|:|\*|\n|\(|\)|\[|]|\{|}|\+|=|\.|>|<|#|@|\$""")
+        val splitRegex = Regex("""\s+|,|;|:|\*|\n|\(|\)|\[|]|\{|}|\+|=|\.|>|<|#|@|\$""")
         val multilineCommentRegex = Regex("""/\*.+?\*/""")
         val twoOrMoreWordsRegex = Regex("""(".+?\s.+?"|'.+?\s.+?')""")
-
         val commentRegex = Regex("""^([^\n]*//)[^\n]*""")
     }
 
-    override fun extract(files: List<DiffFile>): List<CommitStats> {
-        files.map { file -> file.lang = LANGUAGE_NAME }
-        return super.extract(files)
-    }
-
     override fun extractImports(fileContent: List<String>): List<String> {
-        val line = fileContent.map { line -> commentRegex.replace(line, "")}
+        val line = fileContent.map { line -> commentRegex.replace(line, "") }
                        .joinToString(separator = " ").toLowerCase()
         val fileTokens = multilineCommentRegex.replace(
             twoOrMoreWordsRegex.replace(line, ""), "").split(splitRegex)
@@ -32,7 +22,6 @@ class JavascriptExtractor : ExtractorInterface {
     }
 
     override fun tokenize(line: String): List<String> {
-        val commentRegex = Regex("""^([^\n]*//)[^\n]*""")
         return super.tokenize(commentRegex.replace(line, ""))
     }
 

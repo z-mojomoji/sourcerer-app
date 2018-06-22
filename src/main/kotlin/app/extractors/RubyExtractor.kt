@@ -4,20 +4,12 @@
 
 package app.extractors
 
-import app.model.CommitStats
-import app.model.DiffFile
-
 class RubyExtractor : ExtractorInterface {
     companion object {
         const val LANGUAGE_NAME = Lang.RUBY
         val importRegex = Regex("""(require\s+'(\w+)'|load\s+'(\w+)\.\w+')""")
         val commentRegex = Regex("""^([^\n]*#)[^\n]*""")
         val extractImportRegex = Regex("""(require\s+'(\w+)'|load\s+'(\w+)\.\w+')""")
-    }
-
-    override fun extract(files: List<DiffFile>): List<CommitStats> {
-        files.map { file -> file.lang = LANGUAGE_NAME }
-        return super.extract(files)
     }
 
     override fun extractImports(fileContent: List<String>): List<String> {
@@ -41,9 +33,9 @@ class RubyExtractor : ExtractorInterface {
     }
 
     override fun determineLibs(line: String,
-                               fileLibraries: List<String>): List<String> {
+                               importedLibs: List<String>): List<String> {
         // TODO(lyaronskaya): Case with no imports.
-        val libraries = fileLibraries + "rb.rails"
+        val libraries = importedLibs + "rb.rails"
 
         return super.determineLibs(line, libraries)
     }

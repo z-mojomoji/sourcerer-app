@@ -4,20 +4,12 @@
 
 package app.extractors
 
-import app.model.CommitStats
-import app.model.DiffFile
-
 class CSharpExtractor : ExtractorInterface {
     companion object {
         const val LANGUAGE_NAME = Lang.CSHARP
         val importRegex = Regex("""^.*using\s+(\w+[.\w+]*)""")
         val commentRegex = Regex("""^([^\n]*//)[^\n]*""")
         val extractImportRegex = Regex("""using\s+(\w+[.\w+]*)""")
-    }
-
-    override fun extract(files: List<DiffFile>): List<CommitStats> {
-        files.map { file -> file.lang = LANGUAGE_NAME }
-        return super.extract(files)
     }
 
     override fun extractImports(fileContent: List<String>): List<String> {

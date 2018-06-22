@@ -3,20 +3,12 @@
 
 package app.extractors
 
-import app.model.CommitStats
-import app.model.DiffFile
-
 class RustExtractor : ExtractorInterface {
     companion object {
         const val LANGUAGE_NAME = Lang.RUST
         val importRegex = Regex("""^extern crate \w+;$""")
         val commentRegex = Regex("(//.+$)|(/[*].*?[*]/)")
         val extractImportRegex = Regex("""^extern crate (\w+);$""")
-    }
-
-    override fun extract(files: List<DiffFile>): List<CommitStats> {
-        files.map { file -> file.lang = LANGUAGE_NAME }
-        return super.extract(files)
     }
 
     override fun extractImports(fileContent: List<String>): List<String> {

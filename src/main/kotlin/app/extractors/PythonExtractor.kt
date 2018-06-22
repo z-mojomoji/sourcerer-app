@@ -10,23 +10,22 @@ import app.model.DiffFile
 class PythonExtractor : ExtractorInterface {
     companion object {
         const val LANGUAGE_NAME = Lang.PYTHON
-        val COMPREHENSION_MAP = "map"
-        val COMPREHENSION_LIST = "list"
+        const val COMPREHENSION_MAP = "map"
+        const val COMPREHENSION_LIST = "list"
         val docImportRegex = Regex("""^([^\n]*#|\s*\"\"\"|\s*import|\s*from)[^\n]*""")
         val commentRegex = Regex("""^(.*#).*""")
-        val extractImportRegex =
-            Regex("""(from\s+(\w+)[.\w+]*\s+import|import\s+(\w+(,\s*\w+)*))(as\s+)*""")
+        val extractImportRegex = Regex("""(from\s+(\w+)[.\w+]*\s+import|import\s+(\w+(,\s*\w+)*))(as\s+)*""")
+        val mapRegex = Regex("""(map\([^,]+?,)""")
+        val lineEndRegex = Regex(""",\s*""")
     }
 
     override fun extract(files: List<DiffFile>): List<CommitStats> {
-        files.map { file -> file.lang = LANGUAGE_NAME }
         val stats = super.extract(files).toMutableList()
 
         // List comprehension fun fact.
         val allAdded = files.map{ file -> file.getAllAdded() }.flatten()
         val allDeleted = files.map{ file -> file.getAllDeleted() }.flatten()
 
-        val mapRegex = Regex("""(map\([^,]+?,)""")
         val mapAllAdded = allAdded.fold(0) { total, line ->
             total + mapRegex.findAll(line).toList().size }
         val mapAllDeleted = allDeleted.fold(0) { total, line ->
@@ -40,13 +39,15 @@ class PythonExtractor : ExtractorInterface {
         if (mapAllAdded > 0 || mapAllDeleted > 0) {
             stats.add(CommitStats(
                 mapAllAdded, mapAllDeleted, Extractor.TYPE_SYNTAX,
-                tech = LANGUAGE_NAME + Extractor.SEPARATOR + COMPREHENSION_MAP))
+                tech = LANGUAGE_NAME + Extractor.SEPARATOR + COMPREHENSION_MAP
+            ))
         }
 
         if (listAllAdded > 0 || listAllDeleted > 0) {
             stats.add(CommitStats(
                 listAllAdded, listAllDeleted, Extractor.TYPE_SYNTAX,
-                tech = LANGUAGE_NAME + Extractor.SEPARATOR + COMPREHENSION_LIST))
+                tech = LANGUAGE_NAME + Extractor.SEPARATOR + COMPREHENSION_LIST
+            ))
         }
 
         return stats
@@ -58,13 +59,16 @@ class PythonExtractor : ExtractorInterface {
         fileContent.forEach {
             val res = extractImportRegex.find(it)
             if (res != null) {
-                val lineLibs = res.groupValues.last { it != "" && !it.startsWith(',')}
-                    .split(Regex(""",\s*"""))
+                val lineLibs = res.groupValues.last {
+                    it != "" && !it.startsWith(',')
+                }.split(lineEndRegex)
                 imports.addAll(lineLibs)
             }
         }
 
-        var filteredImports = imports.filter { !it.endsWith("_pb") && !it.endsWith("_pb2")}.toMutableList()
+        val filteredImports = imports.filter { import ->
+            !import.endsWith("_pb") && !import.endsWith("_pb2")
+        }.toMutableList()
         if (filteredImports.size < imports.size) {
             filteredImports.add("pb")
         }

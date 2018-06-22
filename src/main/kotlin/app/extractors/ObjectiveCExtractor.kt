@@ -4,9 +4,6 @@
 
 package app.extractors
 
-import app.model.CommitStats
-import app.model.DiffFile
-
 class ObjectiveCExtractor : ExtractorInterface {
     companion object {
         const val LANGUAGE_NAME = Lang.OBJECTIVEC
@@ -15,11 +12,6 @@ class ObjectiveCExtractor : ExtractorInterface {
         val sharpImportIncludeRegex =
                 Regex("""#(import|include)\s+[">](\w+)[/\w+]*\.\w+[">]""")
         val atImportRegex = Regex("""@import\s+(\w+)""")
-    }
-
-    override fun extract(files: List<DiffFile>): List<CommitStats> {
-        files.map { file -> file.lang = LANGUAGE_NAME }
-        return super.extract(files)
     }
 
     override fun extractImports(fileContent: List<String>): List<String> {

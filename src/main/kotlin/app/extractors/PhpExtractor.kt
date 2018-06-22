@@ -4,9 +4,6 @@
 
 package app.extractors
 
-import app.model.CommitStats
-import app.model.DiffFile
-
 class PhpExtractor : ExtractorInterface {
     companion object {
         const val LANGUAGE_NAME = Lang.PHP
@@ -15,11 +12,6 @@ class PhpExtractor : ExtractorInterface {
         val useRegex = Regex("""use\s+(\w+)[\\\w+]*""")
         val requireIncludeRegex = Regex("""(require|require_once|include|""" +
                 """"include_once)\s*[(]?'(\w+)[.\w+]*'[)]?""")
-    }
-
-    override fun extract(files: List<DiffFile>): List<CommitStats> {
-        files.map { file -> file.lang = LANGUAGE_NAME }
-        return super.extract(files)
     }
 
     override fun extractImports(fileContent: List<String>): List<String> {
