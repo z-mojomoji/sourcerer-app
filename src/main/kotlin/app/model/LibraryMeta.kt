@@ -1,62 +1,37 @@
 // Copyright 2018 Sourcerer Inc. All Rights Reserved.
+// Author: Anatoly Kislov (anatoly@sourcerer.io)
 // Author: Liubov Yaronskaya (lyaronskaya@sourcerer.io)
 
 package app.model
 
-import app.Logger
-import java.io.FileReader
+import app.ClassifierProtos
+import com.google.protobuf.InvalidProtocolBufferException
+import java.security.InvalidParameterException
 
-data class LibraryMeta(val id: String,
-                       val imports: List<String>,
-                       val repo: String,
-                       val name: String)
+data class Library (
+    val id: String,
+    val imports: List<String>,
+    val version: Int
+)
 
-class LibraryMetaStorage {
-    private var libraries = hashMapOf<String, ArrayList<LibraryMeta>>()
-    private var importToIndex = hashMapOf<String, Map<String, String>>()
-    private val languages = listOf("cpp", "csharp", "fsharp", "go",
-                            "java", "javascript", "kotlin", "objectivec", "php",
-                            "python", "ruby", "swift")
+class LibraryMeta (
+    var langLibraries: HashMap<String, List<Library>> = hashMapOf()
+){
+    val importToIndexMap = buildImportToIndexMap(langLibraries)
 
-    constructor(directory: String) {
-        val klaxon = Klaxon()
-        for (language in languages) {
-            libraries[language] = arrayListOf()
-            val librariesFileName = "$directory/$language.json"
-            JsonReader(FileReader(librariesFileName)).use { reader ->
-                reader.beginArray {
-                    while (reader.hasNext()) {
-                        val library = klaxon.parse<LibraryMeta>(reader)
-                        if (library == null) {
-                            Logger.info {"Failed to parse $library information."}
-                        }
-                        else libraries[language]!!.add(library!!)
-                    }
-                }
-            }
+    fun buildImportToIndexMap(langLibraries: HashMap<String, List<Library>>):
+        HashMap<String, Map<String, String>> {
+        val importToIndexMap = hashMapOf<String, Map<String, String>>()
+
+        for ((lang, libs) in langLibraries) {
+            val map = hashMapOf<String, String>()
+            libs.forEach { lib -> lib.imports.forEach { import ->
+                map[import] = lib.id
+            }}
+            importToIndexMap[lang] = map
         }
-    }
 
-    fun getImportToIndexMap(language: String): Map<String, String> {
-        if (!importToIndex.containsKey(language)) {
-            val result = hashMapOf<String, String>()
-            for (library in libraries[language]!!) {
-                library.imports.forEach { import -> result[import] = library.id }
-            }
-            importToIndex[language] = result
-        }
-        return importToIndex[language]!!
-    }
-
-    fun getImports(language: String): List<String> {
-        if (language !in languages) {
-            return emptyList()
-        }
-        val result = libraries[language]!!.fold(mutableSetOf<String>()) { acc, lib ->
-            acc.addAll(lib.imports)
-            acc
-        }
-        return result.toList()
+        return importToIndexMap
     }
 
     /**
@@ -75,5 +50,42 @@ class LibraryMetaStorage {
             return getImportToIndexMap("csharp")[import]
         }
         return getImportToIndexMap(language)[import]
+    }
+
+    @Throws(InvalidParameterException::class)
+    constructor(proto: ClassifierProtos.LibrariesMeta) : this() {
+        val tempMap = proto.languagesList.associateBy({ lang -> lang.id },
+            { lang ->
+                lang.librariesList.map { lib ->
+                    Library(lib.id, lib.importsList, lib.version)
+                }
+            })
+        langLibraries = HashMap(tempMap)
+    }
+
+    @Throws(InvalidProtocolBufferException::class)
+    constructor(bytes: ByteArray) : this(ClassifierProtos.LibrariesMeta.parseFrom(bytes))
+
+    constructor(serialized: String) : this(serialized.toByteArray())
+
+    fun getProto(): ClassifierProtos.LibrariesMeta {
+        return ClassifierProtos.LibrariesMeta.newBuilder()
+            .addAllLanguages(langLibraries.map({ (langId, libs) ->
+                ClassifierProtos.Language.newBuilder()
+                    .setId(langId)
+                    .addAllLibraries(libs.map { lib ->
+                        ClassifierProtos.Library.newBuilder()
+                            .setId(lib.id)
+                            .setVersion(lib.version)
+                            .addAllImports(lib.imports)
+                            .build()
+                    })
+                    .build()
+            }))
+            .build()
+    }
+
+    fun serialize(): ByteArray {
+        return getProto().toByteArray()
     }
 }

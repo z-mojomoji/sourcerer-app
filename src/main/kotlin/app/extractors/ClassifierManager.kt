@@ -16,6 +16,9 @@ class ClassifierManager {
     companion object {
         const val MODELS_DIR = "models"
         const val DATA_EXT = ".pb"
+        val getDownloadUrl: (String, String) -> String = {lang, libId ->
+            "${BuildConfig.LIBRARY_MODELS_URL}$lang/$libId$DATA_EXT"
+        }
     }
 
     val cache = hashMapOf<String, Classifier>()
@@ -24,23 +27,23 @@ class ClassifierManager {
      * Returns libraries used in a line.
      */
     fun estimate(line: List<String>, libraries: List<String>): List<String> {
-        return libraries.filter { libraryId ->
-            if (!cache.containsKey(libraryId)) {
+        return libraries.filter { libId ->
+            if (!cache.containsKey(libId)) {
                 // Library not downloaded from cloud storage.
-                if (FileHelper.notExists(libraryId + DATA_EXT, MODELS_DIR)) {
-                    Logger.info { "Downloading $libraryId" }
-                    downloadClassifier(libraryId)
-                    Logger.info { "Downloaded $libraryId" }
+                if (FileHelper.notExists(libId + DATA_EXT, MODELS_DIR)) {
+                    Logger.info { "Downloading $libId classifier" }
+                    downloadClassifier(libId)
+                    Logger.info { "Finished downloading $libId classifier" }
                 }
 
                 // Library not loaded from local storage.
-                Logger.info { "Loading $libraryId evaluator" }
-                loadClassifier(libraryId)
-                Logger.info { "$libraryId evaluator ready" }
+                Logger.info { "Loading $libId evaluator" }
+                loadClassifier(libId)
+                Logger.info { "$libId evaluator ready" }
             }
 
             // Check line for usage of a library.
-            val prediction = cache[libraryId]!!.evaluate(line)
+            val prediction = cache[libId]!!.evaluate(line)
             prediction[0] > prediction[1]
         }
     }
@@ -48,10 +51,10 @@ class ClassifierManager {
     /**
      * Downloads libraries from cloud.
      */
-    private fun downloadClassifier(libraryId: String) {
-        val url = getDownloadUrl(libraryId)
-
-        val file = FileHelper.getFile(libraryId + DATA_EXT, MODELS_DIR)
+    private fun downloadClassifier(libId: String) {
+        val file = FileHelper.getFile(libId + DATA_EXT, MODELS_DIR)
+        // TODO(anatoly): Set language.
+        val url = getDownloadUrl("", libId)
         val builder = HttpClientBuilder.create()
         val client = builder.build()
         try {
@@ -67,23 +70,16 @@ class ClassifierManager {
 
             }
         } catch (e: Exception) {
-            Logger.error(e, "Failed to download $libraryId model")
+            Logger.error(e, "Failed to download $libId classifier")
         }
-    }
-
-    private fun getDownloadUrl(libraryId: String): String {
-        // TODO(anatoly): Get language from libraries list or lib id.
-        val language = ""
-
-        return "${BuildConfig.LIBRARY_MODELS_URL}$language/$libraryId$DATA_EXT"
     }
 
     /**
      * Loads libraries from local storage to cache.
      */
-    private fun loadClassifier(libraryId: String) {
-        val bytesArray = FileHelper.getFile(libraryId + DATA_EXT, MODELS_DIR)
+    private fun loadClassifier(libId: String) {
+        val bytesArray = FileHelper.getFile(libId + DATA_EXT, MODELS_DIR)
             .readBytes()
-        cache[libraryId] = Classifier(bytesArray)
+        cache[libId] = Classifier(bytesArray)
     }
 }

@@ -97,11 +97,11 @@ object Lang {
     const val TYPESCRIPT = "typescript"  // TypeScript
     const val VERILOG = "verilog"  // Verilog
     const val VISUALBASIC = "visualbasic"  // Visual Basic
-    const val VISUALBASICFORAPPS = "visualbasicforapps"  // Visual Basic for Applications
+    const val VBA = "visualbasicforapps"  // Visual Basic for Applications
     const val VHDL = "vhdl"  // VHDL
     const val VIML = "viml"  // Vim L
     const val VUE = "vue"  // Vue
-    const val WOLFRAMLANGUAGE = "wolframlanguage"  // Wolfram Language
+    const val WOLFRAM = "wolframlanguage"  // Wolfram Language
     const val XML = "xml"  // XML
     const val XPM = "xpm"  // XPM
     const val XTEND = "xtend"  // Xtend

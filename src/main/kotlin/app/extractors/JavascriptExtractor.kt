@@ -10,8 +10,6 @@ import app.model.DiffFile
 class JavascriptExtractor : ExtractorInterface {
     companion object {
         const val LANGUAGE_NAME = Lang.JAVASCRIPT
-        val IMPORTS = ExtractorInterface.librariesMetaStorage
-            .getImports(LANGUAGE_NAME)
         val splitRegex =
                 Regex("""\s+|,|;|:|\*|\n|\(|\)|\[|]|\{|}|\+|=|\.|>|<|#|@|\$""")
         val multilineCommentRegex = Regex("""/\*.+?\*/""")
@@ -29,9 +27,8 @@ class JavascriptExtractor : ExtractorInterface {
         val line = fileContent.map { line -> commentRegex.replace(line, "")}
                        .joinToString(separator = " ").toLowerCase()
         val fileTokens = multilineCommentRegex.replace(
-                            twoOrMoreWordsRegex.replace(line, ""), "")
-                            .split(splitRegex)
-        return fileTokens.filter { token -> token in IMPORTS }.distinct()
+            twoOrMoreWordsRegex.replace(line, ""), "").split(splitRegex)
+        return fileTokens.distinct()
     }
 
     override fun getLineLibraries(line: String,

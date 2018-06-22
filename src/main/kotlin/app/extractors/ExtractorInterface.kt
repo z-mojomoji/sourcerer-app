@@ -8,21 +8,17 @@ import app.model.*
 
 interface ExtractorInterface {
     companion object {
-        private val classifiersCache = hashMapOf<String, ClassifierManager>()
-        val librariesMetaStorage = LibraryMetaStorage("libraries")
+        private val classifierManager = ClassifierManager()
+        // TODO (anatoly): Download libraries. val librariesMeta =
         val stringRegex = Regex("""(".+?"|'.+?')""")
-        val splitRegex =
-                Regex("""\s|,|;|\*|\n|\(|\)|\[|]|\{|}|\+|=|&|\$|!=|\.|>|<|#|@|:|\?|!""")
-
-        fun getLibraryClassifier(language: String): ClassifierManager {
-            if (!classifiersCache.containsKey(language)) {
-                classifiersCache[language] = ClassifierManager(language)
-            }
-            return classifiersCache[language]!!
-        }
+        val splitRegex = Regex("""\s|,|;|\*|\n|\(|\)|\[|]|\{|}|\+|=|&|\$|!=|\.|>|<|#|@|:|\?|!""")
     }
 
     fun extract(files: List<DiffFile>): List<CommitStats> {
+        return extractLangStats(files) + extractTechStats(files)
+    }
+
+    fun extractLangStats(files: List<DiffFile>): List<CommitStats> {
         val langStats = files.filter { file -> file.language.isNotBlank() }
             .groupBy { file -> file.language }
             .map { (language, files) -> CommitStats(
@@ -33,12 +29,14 @@ interface ExtractorInterface {
                 type = Extractor.TYPE_LANGUAGE,
                 tech = language)
             }
+    }
 
-        files.map { file ->
+    fun extractTechStats(files: List<DiffFile>): List<CommitStats> {
+        files.forEach { file ->
             file.old.imports = extractImports(file.old.content)
             file.new.imports = extractImports(file.new.content)
-            file
         }
+
 
         val oldLibraryToCount = mutableMapOf<String, Int>()
         val newLibraryToCount = mutableMapOf<String, Int>()
@@ -87,16 +85,48 @@ interface ExtractorInterface {
                         newLibraryToCount.getOrDefault(id, 0) + numLines
                 }
             }
-        val allExtractedLibraries = oldLibraryToCount.keys + newLibraryToCount.keys
 
-        val libraryStats = allExtractedLibraries.map { CommitStats(
+        val allExtractedLibraries = oldLibraryToCount.keys +
+            newLibraryToCount.keys
+
+        return allExtractedLibraries.map { CommitStats(
             numLinesAdded = newLibraryToCount.getOrDefault(it, 0),
             numLinesDeleted = oldLibraryToCount.getOrDefault(it, 0),
             type = Extractor.TYPE_LIBRARY,
-            tech = it)
-        }.filter { it.numLinesAdded > 0 || it.numLinesDeleted > 0 }
+            tech = it
+        ) }.filter { it.numLinesAdded > 0 || it.numLinesDeleted > 0 }
+    }
 
-        return langStats + libraryStats
+    fun extractTechStats(diffs: List<Pair<String, DiffContent>>):
+        Map<String, Int> {
+        val libsCount = mutableMapOf<String, Int>()
+
+        // Extract imports from files.
+        diffs.forEach { (_, diff) ->
+            diff.imports = extractImports(diff.content)
+        }
+
+        // Skip library stats calculation if no imports found.
+        if (!diffs.any({ (_, diff) -> diff.imports.isNotEmpty() })) {
+            return mapOf()
+        }
+
+        // Determine libraries used in each line.
+        diffs.filter { (lang, _) -> lang.isNotBlank() }
+            .forEach { (lang, diff) ->
+                val importedLibs = diff.imports.mapNotNull { import ->
+                    // TODO librariesMetaStorage.mapImportToIndex(import, lang)
+                    import
+                }
+
+                diff.getAllDiffs().forEach { line ->
+                    getLineLibraries(line, importedLibs).forEach { libId ->
+                        libsCount[libId] = libsCount.getOrDefault(libId, 0) + 1
+                    }
+                }
+            }
+
+        return libsCount
     }
 
     fun extractImports(fileContent: List<String>): List<String> {
@@ -112,15 +142,17 @@ interface ExtractorInterface {
         return tokens
     }
 
-    fun getLineLibraries(line: String, fileLibraries: List<String>):
-        List<String> {
+    fun getLineLibraries(line: String,
+                         fileLibraries: List<String>): List<String> {
+        val language = getLanguageName()
+        if (language != null) {
+            return classifierManager.estimate(tokenize(line), fileLibraries)
+        }
+
         return listOf()
     }
 
-    fun getLineLibraries(line: String,
-                         fileLibraries: List<String>, language: String): List<String> {
-        val clfPull = getLibraryClassifier(language)
-        return clfPull.estimate(tokenize(line), fileLibraries)
+    fun getLanguageName(): String? {
+        return null
     }
-
 }

@@ -3,7 +3,7 @@
 
 package app.model
 
-import app.ModelsProtos
+import app.ClassifierProtos
 import com.google.protobuf.InvalidProtocolBufferException
 import java.security.InvalidParameterException
 

@@ -28,6 +28,6 @@ message Language {
     repeated Library libraries = 2;
 }
 
-message Languages {
-    repeated Language list = 1;
+message LibrariesMeta {
+    repeated Language languages = 1;
 }

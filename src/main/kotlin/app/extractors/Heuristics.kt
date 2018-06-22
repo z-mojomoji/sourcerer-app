@@ -689,7 +689,7 @@ val HeuristicsMap = mapOf<String, (String) -> ExtractorInterface?>(
         } else if (LimboRegex.containsMatchIn(buf)) {
             CommonExtractor(Lang.LIMBO)
         } else {
-            CommonExtractor(Lang.WOLFRAMLANGUAGE)
+            CommonExtractor(Lang.WOLFRAM)
         }
     },
     "make" to { _ ->
@@ -738,7 +738,7 @@ val HeuristicsMap = mapOf<String, (String) -> ExtractorInterface?>(
     "nb" to { buf ->
         if (MathematicaRegex.containsMatchIn(buf)) {
             CommonExtractor(Lang.MATHEMATICA)
-        } else CommonExtractor(Lang.WOLFRAMLANGUAGE)
+        } else CommonExtractor(Lang.WOLFRAM)
     },
     "nl" to { _ ->
         CommonExtractor(Lang.NEWLISP)
@@ -1074,7 +1074,7 @@ val HeuristicsMap = mapOf<String, (String) -> ExtractorInterface?>(
         CommonExtractor(Lang.VISUALBASIC)
     },
     "vba" to { _ ->
-        CommonExtractor(Lang.VISUALBASICFORAPPS)
+        CommonExtractor(Lang.VBA)
     },
     "vhdl" to { _ ->
         CommonExtractor(Lang.VHDL)
