@@ -16,7 +16,7 @@ class RubyExtractor : ExtractorInterface {
     }
 
     override fun extract(files: List<DiffFile>): List<CommitStats> {
-        files.map { file -> file.language = LANGUAGE_NAME }
+        files.map { file -> file.lang = LANGUAGE_NAME }
         return super.extract(files)
     }
 
@@ -40,11 +40,15 @@ class RubyExtractor : ExtractorInterface {
         return super.tokenize(newLine)
     }
 
-    override fun getLineLibraries(line: String,
-                                  fileLibraries: List<String>): List<String> {
+    override fun determineLibs(line: String,
+                               fileLibraries: List<String>): List<String> {
         // TODO(lyaronskaya): Case with no imports.
         val libraries = fileLibraries + "rb.rails"
 
-        return super.getLineLibraries(line, libraries, LANGUAGE_NAME)
+        return super.determineLibs(line, libraries)
+    }
+
+    override fun getLanguageName(): String? {
+        return LANGUAGE_NAME
     }
 }

@@ -13,14 +13,14 @@ import kotlin.test.assertEquals
 fun assertExtractsLineLibraries(expectedLibrary: String, actualLine: String,
                                 extractor: ExtractorInterface) {
     val actualLineLibraries =
-            extractor.getLineLibraries(actualLine, listOf(expectedLibrary))
+            extractor.determineLibs(actualLine, listOf(expectedLibrary))
     assertTrue(expectedLibrary in actualLineLibraries)
 }
 
 fun assertExtractsNoLibraries(actualLine: String,
                               extractor: ExtractorInterface) {
     val actualLineLibraries =
-            extractor.getLineLibraries(actualLine, listOf())
+            extractor.determineLibs(actualLine, listOf())
     assertEquals(listOf(), actualLineLibraries)
 }
 

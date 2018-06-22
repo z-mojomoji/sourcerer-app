@@ -16,7 +16,7 @@ class KotlinExtractor : ExtractorInterface {
     }
 
     override fun extract(files: List<DiffFile>): List<CommitStats> {
-        files.map { file -> file.language = LANGUAGE_NAME }
+        files.map { file -> file.lang = LANGUAGE_NAME }
         return super.extract(files)
     }
 
@@ -41,9 +41,7 @@ class KotlinExtractor : ExtractorInterface {
         return super.tokenize(newLine)
     }
 
-    override fun getLineLibraries(line: String,
-                                  fileLibraries: List<String>): List<String> {
-
-        return super.getLineLibraries(line, fileLibraries, LANGUAGE_NAME)
+    override fun getLanguageName(): String? {
+        return LANGUAGE_NAME
     }
 }

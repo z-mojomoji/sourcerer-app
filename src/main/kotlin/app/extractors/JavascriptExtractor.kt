@@ -19,7 +19,7 @@ class JavascriptExtractor : ExtractorInterface {
     }
 
     override fun extract(files: List<DiffFile>): List<CommitStats> {
-        files.map { file -> file.language = LANGUAGE_NAME }
+        files.map { file -> file.lang = LANGUAGE_NAME }
         return super.extract(files)
     }
 
@@ -31,13 +31,12 @@ class JavascriptExtractor : ExtractorInterface {
         return fileTokens.distinct()
     }
 
-    override fun getLineLibraries(line: String,
-                                  fileLibraries: List<String>): List<String> {
-        return super.getLineLibraries(line, fileLibraries, LANGUAGE_NAME)
-    }
-
     override fun tokenize(line: String): List<String> {
         val commentRegex = Regex("""^([^\n]*//)[^\n]*""")
         return super.tokenize(commentRegex.replace(line, ""))
+    }
+
+    override fun getLanguageName(): String? {
+        return LANGUAGE_NAME
     }
 }
