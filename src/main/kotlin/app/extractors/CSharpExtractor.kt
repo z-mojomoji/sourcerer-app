@@ -31,6 +31,11 @@ class CSharpExtractor : ExtractorInterface {
         return super.tokenize(newLine)
     }
 
+    override fun mapImportToIndex(import: String, lang: String,
+                                  startsWith: Boolean): String? {
+        return super.mapImportToIndex(import, lang, startsWith = true)
+    }
+
     override fun getLanguageName(): String? {
         return LANGUAGE_NAME
     }

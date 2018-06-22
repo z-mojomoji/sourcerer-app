@@ -13,7 +13,8 @@ interface ExtractorInterface {
         val librariesMeta = LibraryMeta(hashMapOf())
 
         val stringRegex = Regex("""(".+?"|'.+?')""")
-        val splitRegex = Regex("""\s|,|;|\*|\n|\(|\)|\[|]|\{|}|\+|=|&|\$|!=|\.|>|<|#|@|:|\?|!""")
+        val splitRegex = Regex("""\s|,|;|\*|\n|\(|\)|\[|]|\{|}|\+|=|&|\$|""" +
+            """!=|\.|>|<|#|@|:|\?|!""")
     }
 
     // Identify libs used in a line with classifiers.
@@ -112,7 +113,20 @@ interface ExtractorInterface {
         return null
     }
 
-    fun mapImportToIndex(import: String, lang: String): String? {
-        return librariesMeta.importToIndexMap[lang]?.get(import)
+    fun mapImportToIndex(import: String, lang: String,
+                         startsWith: Boolean = false): String? {
+        if (!librariesMeta.importToIndexMap.contains(lang)) return null
+
+        if (startsWith) {
+            val map = librariesMeta.importToIndexMap[lang]
+            val baseImport = map!!.keys.find { import.startsWith(it) }
+            if (baseImport != null) {
+                return map[baseImport]
+            }
+
+            return null
+        }
+
+        return librariesMeta.importToIndexMap[lang]!![import]
     }
 }

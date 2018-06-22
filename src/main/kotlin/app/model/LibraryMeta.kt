@@ -34,24 +34,6 @@ class LibraryMeta (
         return importToIndexMap
     }
 
-    /**
-     *  Maps import to library id.
-     *  If no such import in libraries, returns null.
-     */
-    fun mapImportToIndex(import: String, language: String): String? {
-        if (language !in languages) {
-            return null
-        }
-        if (language in listOf("java", "javascript", "csharp", "cpp", "kotlin")) {
-            val languageMap = getImportToIndexMap(language)
-            return languageMap.keys.find{ import.startsWith(it) }
-        }
-        if (language == "fsharp") {
-            return getImportToIndexMap("csharp")[import]
-        }
-        return getImportToIndexMap(language)[import]
-    }
-
     @Throws(InvalidParameterException::class)
     constructor(proto: ClassifierProtos.LibrariesMeta) : this() {
         val tempMap = proto.languagesList.associateBy({ lang -> lang.id },

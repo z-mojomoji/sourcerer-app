@@ -27,18 +27,16 @@ class JavaExtractor : ExtractorInterface {
     override fun extract(files: List<DiffFile>): List<CommitStats> {
         val stats = super.extract(files).toMutableList()
 
+        // Keywords stats.
         val added = files.fold(mutableListOf<String>(), { total, file ->
             total.addAll(file.getAllAdded())
             total
         })
-
         val deleted = files.fold(mutableListOf<String>(), { total, file ->
             total.addAll(file.getAllDeleted())
             total
         })
 
-        // Keywords stats.
-        // TODO(anatoly): ANTLR parsing.
         KEYWORDS.forEach { keyword ->
             val totalAdded = added.count { line -> line.contains(keyword)}
             val totalDeleted = deleted.count { line -> line.contains(keyword)}
@@ -73,6 +71,11 @@ class JavaExtractor : ExtractorInterface {
         newLine = commentRegex.replace(newLine, "")
         newLine = packageRegex.replace(newLine, "")
         return super.tokenize(newLine)
+    }
+
+    override fun mapImportToIndex(import: String, lang: String,
+                                  startsWith: Boolean): String? {
+        return super.mapImportToIndex(import, lang, startsWith = true)
     }
 
     override fun getLanguageName(): String? {

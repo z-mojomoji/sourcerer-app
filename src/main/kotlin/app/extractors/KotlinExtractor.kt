@@ -1,5 +1,6 @@
 // Copyright 2017 Sourcerer Inc. All Rights Reserved.
 // Author: Liubov Yaronskaya (lyaronskaya@sourcerer.io)
+// Author: Anatoly Kislov (anatoly@sourcerer.io)
 
 package app.extractors
 
@@ -31,6 +32,11 @@ class KotlinExtractor : ExtractorInterface {
         newLine = commentRegex.replace(newLine, "")
         newLine = packageRegex.replace(newLine, "")
         return super.tokenize(newLine)
+    }
+
+    override fun mapImportToIndex(import: String, lang: String,
+                                  startsWith: Boolean): String? {
+        return super.mapImportToIndex(import, lang, startsWith = true)
     }
 
     override fun getLanguageName(): String? {

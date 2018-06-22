@@ -32,9 +32,10 @@ class FSharpExtractor : ExtractorInterface {
         return super.tokenize(newLine)
     }
 
-    override fun mapImportToIndex(import: String, lang: String): String? {
+    override fun mapImportToIndex(import: String, lang: String,
+                                  startsWith: Boolean): String? {
         // The behaviour of fsharp library classifier is the same as for csharp.
-        return super.mapImportToIndex(import, Lang.CSHARP)
+        return super.mapImportToIndex(import, Lang.CSHARP, false)
     }
 
     override fun getLanguageName(): String? {
