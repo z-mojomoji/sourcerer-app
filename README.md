@@ -2,7 +2,7 @@
   <a href="https://sourcerer.io">
     <img src=https://user-images.githubusercontent.com/20287615/34189346-d426d4c2-e4ef-11e7-9da4-cc76a1ed111d.png alt="Sourcerer" width=35>
   </a>
-  &nbsp;sourcerer.io&nbsp;·
+  &nbsp;sourcerer.io&nbsp;
   <a href="https://sourcerer.io/start"><img src=https://img.shields.io/badge/sourcerer-start%20now-brightgreen.svg></a>
   <a href="https://github.com/sourcerer-io/sourcerer-app/releases"><img src=https://img.shields.io/github/release/sourcerer-io/sourcerer-app.svg?colorB=4ec528></a>
   <a href="https://github.com/sourcerer-io/sourcerer-app/blob/master/LICENSE.md"><img src=https://img.shields.io/github/license/sourcerer-io/sourcerer-app.svg></a>
@@ -11,8 +11,18 @@
 A visual profile for software engineers.
 <br>
 
-<img height="400" alt="sergey's profile" src="https://user-images.githubusercontent.com/20287615/41503360-cd85b92a-7186-11e8-94a9-c733d93e9f19.gif">
+<img height="350" alt="sergey's profile" src="https://user-images.githubusercontent.com/20287615/41503360-cd85b92a-7186-11e8-94a9-c733d93e9f19.gif">
 <br>
+
+Features
+========
+* Build profile automatically with a single click
+* Support of 100 languages (even exotic like COBOL)
+* More than 1000 libraries usage detection with per-line statistics
+* Visual repsentation of your developing experience
+* *Finally!* Summary of all repositories you've contributed too 
+* Discover interesting fun facts about yourself
+* News channels subscribrition based on your expertise
 
 Get started
 ===========
