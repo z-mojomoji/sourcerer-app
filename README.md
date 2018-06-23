@@ -12,7 +12,6 @@ A visual profile for software engineers.
 <br>
 
 <img height="350" alt="sergey" src="https://user-images.githubusercontent.com/20287615/41503360-cd85b92a-7186-11e8-94a9-c733d93e9f19.gif">
-<br>
 
 Features
 ========
@@ -21,7 +20,7 @@ Features
 * More than 1000 libraries usage detection with per-line statistics
 * Visual repsentation of your developing experience
 * *Finally!* Summary of all repositories you've contributed too 
-* Discover interesting fun facts about yourself
+* Discover interesting facts about yourself
 * News that is relevant to your code
 
 Creating your profile is just the first step for us at Sourcerer. Some of the things on our roadmap include:
@@ -32,7 +31,9 @@ Creating your profile is just the first step for us at Sourcerer. Some of the th
 Get started
 ===========
 
-Easiest way to create your profile from you public repos sourcerer.io/start
+The easiest way to get started is with your open source repos. Go to <https://sourcerer.io/start>, and select *Build with GitHub* and watch your profile build. For closed source repos, you will need to use this app.
+
+If you already created an account using GitHub, you would have received an email with credentials for the app.  If not, You will need a new account, which you can get at <https://sourcerer.io/start>, and select *Build with app*.
 
 Showcase
 ========
@@ -82,18 +83,6 @@ Showcase
   </tr>
 </table>
 
-What is it?
-===========
-
-Once you feed [Sourcerer](https://sourcerer.io/) some git repos, you will get a beautiful profile that will help you learn things about yourself, connect to others, and become a better
-engineer. 
-
-Both open source and closed source repos are fine. The easiest way to get started is with your open source repos. Go to <https://sourcerer.io/start>, and select *Build with GitHub* and watch your profile build. For closed source repos, you will need to use this app. If you already created an account using GitHub, you would have received an email with credentials for the app.  If not, You will need a new account, which you can get at <https://sourcerer.io/start>, and select *Build with app*.
-
-The Sourcerer app does **NOT** upload source code anywhere, and it **NEVER** will. The app looks at repos locally on your machine, and then sends stats to sourcerer.io. The best way to verify is to look at the code. [src/main/proto/sourcerer.proto](https://github.com/sourcerer-io/sourcerer-app/blob/develop/src/main/proto/sourcerer.proto)
-is a good start as it describes the client-server protocol.
-
-
 Requirements
 ============
 
@@ -121,6 +110,11 @@ To remove sourcerer from your machine:
 ```
 sourcerer --uninstall
 ```
+
+Internals
+=========
+The app looks at repos locally on your machine, and then sends stats to sourcerer.io. The best way to verify is to look at the code. [src/main/proto/sourcerer.proto](https://github.com/sourcerer-io/sourcerer-app/blob/develop/src/main/proto/sourcerer.proto) is a good start as it describes the client-server protocol.
+The Sourcerer app does **NOT** upload source code anywhere, and it **NEVER** will.
 
 Build
 =====
