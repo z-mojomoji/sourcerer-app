@@ -14,11 +14,8 @@ import java.io.FileOutputStream
 
 class ClassifierManager {
     companion object {
-        const val MODELS_DIR = "models"
+        const val CLASSIFIERS_DIR = "classifiers"
         const val DATA_EXT = ".pb"
-        val getDownloadUrl: (String, String) -> String = {lang, libId ->
-            "${BuildConfig.LIBRARY_MODELS_URL}$lang/$libId$DATA_EXT"
-        }
     }
 
     val cache = hashMapOf<String, Classifier>()
@@ -30,7 +27,7 @@ class ClassifierManager {
         return libraries.filter { libId ->
             if (!cache.containsKey(libId)) {
                 // Library not downloaded from cloud storage.
-                if (FileHelper.notExists(libId + DATA_EXT, MODELS_DIR)) {
+                if (FileHelper.notExists(libId + DATA_EXT, CLASSIFIERS_DIR)) {
                     Logger.info { "Downloading $libId classifier" }
                     downloadClassifier(libId)
                     Logger.info { "Finished downloading $libId classifier" }
@@ -44,7 +41,8 @@ class ClassifierManager {
 
             // Check line for usage of a library.
             val prediction = cache[libId]!!.evaluate(line)
-            prediction[0] > prediction[1]
+            // Prediction based on two classes.
+            prediction[cache[libId]!!.libraries.indexOf(libId)] > 0.5
         }
     }
 
@@ -52,9 +50,8 @@ class ClassifierManager {
      * Downloads libraries from cloud.
      */
     private fun downloadClassifier(libId: String) {
-        val file = FileHelper.getFile(libId + DATA_EXT, MODELS_DIR)
-        // TODO(anatoly): Set language.
-        val url = getDownloadUrl("", libId)
+        val file = FileHelper.getFile(libId + DATA_EXT, CLASSIFIERS_DIR)
+        val url = "${BuildConfig.LIBRARY_MODELS_URL}$libId$DATA_EXT"
         val builder = HttpClientBuilder.create()
         val client = builder.build()
         try {
@@ -78,7 +75,7 @@ class ClassifierManager {
      * Loads libraries from local storage to cache.
      */
     private fun loadClassifier(libId: String) {
-        val bytesArray = FileHelper.getFile(libId + DATA_EXT, MODELS_DIR)
+        val bytesArray = FileHelper.getFile(libId + DATA_EXT, CLASSIFIERS_DIR)
             .readBytes()
         cache[libId] = Classifier(bytesArray)
     }

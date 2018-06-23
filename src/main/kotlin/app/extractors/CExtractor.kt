@@ -33,6 +33,12 @@ class CExtractor : ExtractorInterface {
         return super.tokenize(newLine)
     }
 
+    override fun mapImportToIndex(import: String, lang: String,
+                                  startsWith: Boolean): String? {
+        // TODO(lyaronskaya): Add C to libraries.
+        return super.mapImportToIndex(import, Lang.CPP, startsWith = true)
+    }
+
     override fun getLanguageName(): String? {
         return LANGUAGE_NAME
     }

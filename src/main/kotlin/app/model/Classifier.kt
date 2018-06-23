@@ -36,7 +36,14 @@ class Classifier {
         val norm = Math.sqrt(tokensWithWeight
             .map { (_, tfidf) -> tfidf * tfidf }
             .sum() + 1e-7)
-        val output = libraries.map {
+        val output = if (libraries.size == 2) {
+            val firstLibProb = Math.exp(tokensWithWeight
+                .map { (token, tfidf) ->
+                    tfidf / norm * weights[libraries[0]]!![token]!!
+                }
+                .sum() + biases[libraries[0]]!!)
+            listOf(firstLibProb, 1 - firstLibProb)
+        } else libraries.map {
             Math.exp(tokensWithWeight
                 .map { (token, tfidf) -> tfidf / norm * weights[it]!![token]!! }
                 .sum() + biases[it]!!)

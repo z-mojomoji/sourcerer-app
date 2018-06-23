@@ -30,12 +30,7 @@ class GoExtractor : ExtractorInterface {
             imports.addAll(matchResult.groupValues.last()
                 .split(separatorsRegex)
                 .filter { it.isNotEmpty() }
-                .map { it.replace("\"", "") }
-                .map {
-                    if (it.contains("github.com")) {
-                        it.split("/")[2]
-                    } else it
-                })
+                .map { it.replace("\"", "") })
         }
 
         return imports.toList()
