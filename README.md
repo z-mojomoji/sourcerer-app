@@ -88,8 +88,6 @@ Requirements
 
 * Linux or macOS
 * Java 8+ Platform ([JRE](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) for Linux or [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) for macOS)
-* Git repositories with master branch with at least one commit
-* Account on <https://sourcerer.io/>
 
 Usage
 =====
@@ -101,15 +99,6 @@ curl -s https://sourcerer.io/app/install | bash
 ```
 
 To run wizard use "sourcerer" command
-
-Uninstall?
-==========
-
-To remove sourcerer from your machine:
-
-```
-sourcerer --uninstall
-```
 
 Internals
 =========
