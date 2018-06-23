@@ -10,7 +10,7 @@
 A visual profile for software engineers.
 <br>
 
-![profile-anishot](https://user-images.githubusercontent.com/20287615/41503360-cd85b92a-7186-11e8-94a9-c733d93e9f19.gif)
+<img height="500" alt="sergey's profile" src="https://user-images.githubusercontent.com/20287615/41503360-cd85b92a-7186-11e8-94a9-c733d93e9f19.gif">
 <br>
 
 Get started
