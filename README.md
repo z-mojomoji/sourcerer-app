@@ -1,8 +1,8 @@
 <h1 style="font-weight:normal">
   <a href="https://sourcerer.io">
-    <img src=https://user-images.githubusercontent.com/20287615/34189346-d426d4c2-e4ef-11e7-9da4-cc76a1ed111d.png alt="Sourcerer" width=30>
-     sourcerer.io
+    <img src=https://user-images.githubusercontent.com/20287615/34189346-d426d4c2-e4ef-11e7-9da4-cc76a1ed111d.png alt="Sourcerer" width=35>
   </a>
+  &nbsp;sourcerer.io&nbsp;
   <a href="https://sourcerer.io/start">
     <img src=https://img.shields.io/badge/sourcerer-start%20now-brightgreen.svg>
   </a>
