@@ -9,12 +9,21 @@
 </h1>
 A visual profile for software engineers.
 <br>
-  
-Make yours with your public GitHub: <a href="https://sourcerer.io/start">https://sourcerer.io/start</a>.
-<br>
 
 ![profile-anishot](https://user-images.githubusercontent.com/20287615/41503360-cd85b92a-7186-11e8-94a9-c733d93e9f19.gif)
 <br>
+
+Get started
+===========
+
+Easiest way to create your profile from you public repos sourcerer.io/start
+
+Showcase
+========
+<img width="255" alt="anatoly" src="https://user-images.githubusercontent.com/29913247/41805813-34dd2e1e-76b9-11e8-8879-ae01d7c1332a.png">
+<img width="251" alt="adnanrahic" src="https://user-images.githubusercontent.com/29913247/41805810-34847e36-76b9-11e8-960c-87a8981f9c9c.png">
+<img width="252" alt="wanghuaili" src="https://user-images.githubusercontent.com/29913247/41805811-34a17414-76b9-11e8-98b6-bd6d2f29d4ed.png">
+<img width="249" alt="ddeveloperr" src="https://user-images.githubusercontent.com/29913247/41805812-34c084b2-76b9-11e8-8d5a-70a8de2044b3.png">
 
 What is it?
 ===========
