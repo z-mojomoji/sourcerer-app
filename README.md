@@ -31,9 +31,9 @@ Creating your profile is just the first step for us at Sourcerer. Some of the th
 Get started
 ===========
 
-The easiest way to get started is with your open source repos. Go to <https://sourcerer.io/start>, and select *Build with GitHub* and watch your profile build. For closed source repos, you will need to use this app.
+The easiest way to get started is with your open source repos. Go to <https://sourcerer.io/start>, and select *Build with GitHub* and watch your profile build. 
 
-If you already created an account using GitHub, you would have received an email with credentials for the app.  If not, You will need a new account, which you can get at <https://sourcerer.io/start>, and select *Build with app*.
+For closed source repos, you will need to use this app. If you already created an account using GitHub, you would have received an email with credentials for the app. If not, You will need a new account, which you can get at <https://sourcerer.io/join>.
 
 Showcase
 ========
@@ -102,6 +102,7 @@ To run wizard use "sourcerer" command
 
 Internals
 =========
+
 The app looks at repos locally on your machine, and then sends stats to sourcerer.io. The best way to verify is to look at the code. [src/main/proto/sourcerer.proto](https://github.com/sourcerer-io/sourcerer-app/blob/develop/src/main/proto/sourcerer.proto) is a good start as it describes the client-server protocol.
 The Sourcerer app does **NOT** upload source code anywhere, and it **NEVER** will.
 
@@ -126,13 +127,14 @@ $ java -jar build/libs/sourcerer-app.jar
 
 FAQ
 ===
-How to process close source repos?
+
+###How to process close source repos?
 We process only public repos using GitHub OAuth. To process close source repos you need to run sourcerer app locally. See get started for instructions. Sourcerer app sends only statistical information to our servers and never sends code.
 
-Why do you need THIS permissions?
+###Why do we need GitHub permissions?
 We use emails to indetify commits authorship, read orgs access to get list of public repositories that you've contributed to. You also need to grant access to read this public information from org
 
-Other questions
+###Other questions
 See sourcerer.io/faq 
 
 Contributing
@@ -148,4 +150,5 @@ Some handy links:<br>
 
 License
 =======
+
 Sourcerer is under the MIT license. See the [LICENSE](https://github.com/sourcerer-io/sourcerer-app/blob/develop/LICENSE.md) for more information.
