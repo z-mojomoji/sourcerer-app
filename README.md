@@ -23,7 +23,7 @@ Features
 * Visual repsentation of your developing experience
 * *Finally!* Summary of all repositories you've contributed too :tada:
 * Discover interesting facts about yourself
-* News that is relevant to your code
+* :radio: News channels that is relevant to your code
 
 Creating your profile is just the first step for us at Sourcerer. Some of the things on our roadmap include:
 * Engineers to follow and learn from
