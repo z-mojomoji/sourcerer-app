@@ -33,9 +33,9 @@ Creating your profile is just the first step for us at Sourcerer. Some of the th
 Get started
 ===========
 
-The easiest way to get started is with your open source repos. Go to <https://sourcerer.io/start>, and select *Build with GitHub* and watch your profile build. 
+The easiest way to get started is with your open source repos. Go to [sourcerer.io/start](https://sourcerer.io/start), and select *Build with GitHub* and watch your profile build. 
 
-For closed source repos, you will need to use this app. If you already created an account using GitHub, you would have received an email with credentials for the app. If not, You will need a new account, which you can get at <https://sourcerer.io/join>.
+For closed source repos, you will need to use this app. If you already created an account using GitHub, you would have received an email with credentials for the app. If not, You will need a new account, which you can get at [sourcerer.io/join](https://sourcerer.io/join>).
 
 Showcase
 ========
