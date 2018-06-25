@@ -79,7 +79,7 @@ To run wizard use "sourcerer" command
 Internals
 =========
 
-The app looks at repos locally on your machine, and then sends stats to sourcerer.io. The best way to verify is to look at the code. [src/main/proto/sourcerer.proto](https://github.com/sourcerer-io/sourcerer-app/blob/develop/src/main/proto/sourcerer.proto) is a good start as it describes the client-server protocol.
+The app looks at repos locally on your machine, and then sends stats to sourcerer.io. The best way to verify is to look at the code. Protobuf messages declared in [src/main/proto/sourcerer.proto](https://github.com/sourcerer-io/sourcerer-app/blob/develop/src/main/proto/sourcerer.proto) is a good start as it describes the client-server protocol.
 The Sourcerer app does **NOT** upload source code anywhere, and it **NEVER** will.
 
 Build
@@ -108,10 +108,10 @@ FAQ
 We process only public repos using GitHub OAuth. To process closed source repos you need to run sourcerer app locally. See [Get started](/#get-started) for instructions. Sourcerer app sends only statistical information to our servers and never sends code.
 
 ### Why do we need GitHub permissions?
-We use emails to indetify commits authorship, read orgs access to get list of public repositories that you've contributed to. You also need to grant access to read this public information from org
+We use emails to indetify commits authorship, read orgs access to get list of public repositories that you've contributed to. You also need to grant access to read this public information from organization.
 
 ### Other questions
-See [sourcerer.io/faq](https://sourcerer.io/faq)
+See [sourcerer.io/faq](https://sourcerer.io/faq).
 
 Contributing
 ============
