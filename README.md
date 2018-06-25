@@ -58,9 +58,12 @@ Showcase
 
 Requirements
 ============
+* Web browser
 
-* Linux or macOS
-* Java 8+ Platform ([JRE](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) for Linux or [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) for macOS)
+or
+
+* Linux or macOS or Windows
+* Java 8+ Platform ([JRE](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) for Linux and Windows or [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) for macOS)
 
 Usage
 =====
@@ -101,14 +104,14 @@ $ java -jar build/libs/sourcerer-app.jar
 FAQ
 ===
 
-### How to process close source repos?
-We process only public repos using GitHub OAuth. To process close source repos you need to run sourcerer app locally. See get started for instructions. Sourcerer app sends only statistical information to our servers and never sends code.
+### How to process closed source repos?
+We process only public repos using GitHub OAuth. To process closed source repos you need to run sourcerer app locally. See [Get started](/#get-started) for instructions. Sourcerer app sends only statistical information to our servers and never sends code.
 
 ### Why do we need GitHub permissions?
 We use emails to indetify commits authorship, read orgs access to get list of public repositories that you've contributed to. You also need to grant access to read this public information from org
 
 ### Other questions
-See sourcerer.io/faq 
+See [sourcerer.io/faq](https://sourcerer.io/faq)
 
 Contributing
 ============
