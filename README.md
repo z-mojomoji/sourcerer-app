@@ -17,13 +17,13 @@ A visual profile for software engineers.
 
 Features
 ========
-* Build profile automatically with a single click
-* Support of 100 languages (even exotic like COBOL)
-* More than [1000 libraries](https://github.com/sourcerer-io/awesome-libraries) usage detection with per-line statistics
-* Present better your developing experience
-* *Finally!* Summary of all repositories you've contributed too :tada:
-* Discover interesting facts about yourself
-* :radio: News channels that is relevant to your code
+* Profile creation with a single click
+* Support of 100 languages (even exotic ones like COBOL)
+* Detection of more than [1,000 libraries](https://github.com/sourcerer-io/awesome-libraries) in code with per-line statistics
+* Visual presentation your development experience
+* *Finally!* Summary of all repositories you've contributed to :tada:
+* Interesting facts about yourself
+* :radio: News channels that are relevant to your code
 
 Creating your profile is just the first step for us at Sourcerer. Some of the things on our roadmap include:
 * Engineers to follow and learn from
@@ -81,11 +81,11 @@ The Sourcerer app does **NOT** upload source code anywhere, and it **NEVER** wil
 
 FAQ
 ===
-### How to process closed source repos?
-We process only public repos using GitHub OAuth. To process closed source repos you need to run sourcerer app locally. See [Get started](#get-started) for instructions. Sourcerer app sends only statistical information to our servers and never sends code.
+### How can I process private repos?
+We process only public repos using GitHub OAuth. To process private repos you need to run sourcerer app locally. See [Get started](#get-started) for instructions. Sourcerer app sends only statistical information to our servers and never sends code.
 
-### Why do we need GitHub permissions?
-We use emails to indetify commits authorship, read orgs access to get list of public repositories that you've contributed to. You also need to grant access to read this public information from organization.
+### Why do you need GitHub permissions?
+We use emails to identify commit authorship, read orgs access to get list of public repositories that you've contributed to. You also need to grant access to read this public information from an organization.
 
 ### Other questions
 See [sourcerer.io/faq](https://sourcerer.io/faq).
