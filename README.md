@@ -39,6 +39,7 @@ For closed source repos, you will need to use this app. If you already created a
 
 Showcase
 ========
+<center>
 <table align="center">
   <tr>
     <td><a href="https://sourcerer.io/chdemko"><img width="100" alt="chdemko" src="https://user-images.githubusercontent.com/29913247/41827998-512ef768-783b-11e8-9afd-f94fac1b2886.png"></a></td>
@@ -52,6 +53,7 @@ Showcase
     <td><a href="https://sourcerer.io/praharshjain"><img width="100" alt="praharshjain" src="https://user-images.githubusercontent.com/29913247/41828005-51f4fb48-783b-11e8-9f29-071bef43909f.png"></a></td>
 </tr>
 </table>
+</center>
 
 Requirements
 ============
