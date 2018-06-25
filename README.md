@@ -37,50 +37,17 @@ For closed source repos, you will need to use this app. If you already created a
 
 Showcase
 ========
-
 <table>
   <tr>
-    <td>
-      <a href="https://sourcerer.io">
-        <img height="200" alt="anatoly" src="https://user-images.githubusercontent.com/29913247/41805813-34dd2e1e-76b9-11e8-8879-ae01d7c1332a.png">
-      </a>
-    </td>
-    <td>
-      <a href="https://sourcerer.io">
-        <img height="200" alt="adnanrahic" src="https://user-images.githubusercontent.com/29913247/41805810-34847e36-76b9-11e8-960c-87a8981f9c9c.png">
-      </a>
-    </td>
-    <td>
-      <a href="https://sourcerer.io">
-        <img height="200" alt="wanghuaili" src="https://user-images.githubusercontent.com/29913247/41805811-34a17414-76b9-11e8-98b6-bd6d2f29d4ed.png">
-      </a>
-    </td>
-    <td>
-      <a href="https://sourcerer.io">
-        <img height="200" alt="ddeveloperr" src="https://user-images.githubusercontent.com/29913247/41805812-34c084b2-76b9-11e8-8d5a-70a8de2044b3.png">
-      </a>
-    </td>
-    <td>
-      <a href="https://sourcerer.io">
-        <img height="200" alt="ddeveloperr" src="https://user-images.githubusercontent.com/29913247/41805812-34c084b2-76b9-11e8-8d5a-70a8de2044b3.png">
-      </a>
-    </td>
-    <td>
-      <a href="https://sourcerer.io">
-        <img height="200" alt="anatoly" src="https://user-images.githubusercontent.com/29913247/41805813-34dd2e1e-76b9-11e8-8879-ae01d7c1332a.png">
-      </a>
-    </td>
-    <td>
-      <a href="https://sourcerer.io">
-        <img height="200" alt="wanghuaili" src="https://user-images.githubusercontent.com/29913247/41805811-34a17414-76b9-11e8-98b6-bd6d2f29d4ed.png">
-      </a>
-    </td>
-    <td>
-      <a href="https://sourcerer.io">
-        <img height="200" alt="adnanrahic" src="https://user-images.githubusercontent.com/29913247/41805810-34847e36-76b9-11e8-960c-87a8981f9c9c.png">
-      </a>
-    </td>
-  </tr>
+    <td><a href="https://sourcerer.io/chdemko"><img width="131" height="250" alt="chdemko" src="https://user-images.githubusercontent.com/29913247/41827998-512ef768-783b-11e8-9afd-f94fac1b2886.png"></a></td>
+    <td><a href="https://sourcerer.io/chendaniely"><img width="131" height="250" alt="chendaniely" src="https://user-images.githubusercontent.com/29913247/41827999-514d0b22-783b-11e8-8a05-af7191b86f6c.png"></a></td>
+    <td><a href="https://sourcerer.io/lauragift21"><img width="131" height="250" alt="lauragift21" src="https://user-images.githubusercontent.com/29913247/41828000-5169ac8c-783b-11e8-9955-a3cb114c37f7.png"></a></td>
+    <td><a href="https://sourcerer.io/maracuja"><img width="131" height="250" alt="maracuja-juice" src="https://user-images.githubusercontent.com/29913247/41828001-5184d8fe-783b-11e8-9d5f-ce57d208d7cd.png"></a></td>
+    <td><a href="https://sourcerer.io/marisbotero"><img width="131" height="250" alt="marisbotero" src="https://user-images.githubusercontent.com/29913247/41828002-519fb4a8-783b-11e8-98dd-ed3599b16a5a.png"></a></td>
+    <td><a href="https://sourcerer.io/nordes"><img width="131" height="250" alt="nordes" src="https://user-images.githubusercontent.com/29913247/41828003-51baff56-783b-11e8-883c-608fd476afc9.png"></a></td>
+    <td><a href="https://sourcerer.io/ppapadeas"><img width="131" height="250" alt="ppapadeas" src="https://user-images.githubusercontent.com/29913247/41828004-51d833f0-783b-11e8-9681-9725a7e3ed6a.png"></a></td>
+    <td><a href="https://sourcerer.io/praharshjain"><img width="131" height="250" alt="praharshjain" src="https://user-images.githubusercontent.com/29913247/41828005-51f4fb48-783b-11e8-9f29-071bef43909f.png"></a></td>
+</tr>
 </table>
 
 Requirements
@@ -128,13 +95,13 @@ $ java -jar build/libs/sourcerer-app.jar
 FAQ
 ===
 
-###How to process close source repos?
+### How to process close source repos?
 We process only public repos using GitHub OAuth. To process close source repos you need to run sourcerer app locally. See get started for instructions. Sourcerer app sends only statistical information to our servers and never sends code.
 
-###Why do we need GitHub permissions?
+### Why do we need GitHub permissions?
 We use emails to indetify commits authorship, read orgs access to get list of public repositories that you've contributed to. You also need to grant access to read this public information from org
 
-###Other questions
+### Other questions
 See sourcerer.io/faq 
 
 Contributing
