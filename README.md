@@ -20,7 +20,7 @@ Features
 * Build profile automatically with a single click
 * Support of 100 languages (even exotic like COBOL)
 * More than [1000 libraries](https://github.com/sourcerer-io/awesome-libraries) usage detection with per-line statistics
-* Visual repsentation of your developing experience
+* Present better your developing experience
 * *Finally!* Summary of all repositories you've contributed too :tada:
 * Discover interesting facts about yourself
 * :radio: News channels that is relevant to your code
@@ -116,8 +116,8 @@ License
 =======
 Sourcerer is under the MIT license. See the [LICENSE](https://github.com/sourcerer-io/sourcerer-app/blob/develop/LICENSE.md) for more information.
 
-Handy links
-===========
+Links
+=====
 * [Sourcerer Site](https://sourcerer.io/)
 * [Sourcerer Blog](https://blog.sourcerer.io)
 * [Follow Sourcerer on Twitter](https://twitter.com/sourcerer_io)
