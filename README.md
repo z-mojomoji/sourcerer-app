@@ -39,19 +39,21 @@ For closed source repos, you will need to use this app. If you already created a
 
 Showcase
 ========
+<p align="center">
 <table>
   <tr>
-    <td><a href="https://sourcerer.io/chdemko"><img width="84" alt="chdemko" src="https://user-images.githubusercontent.com/29913247/41827998-512ef768-783b-11e8-9afd-f94fac1b2886.png"></a></td>
-    <td><a href="https://sourcerer.io/chendaniely"><img width="84" alt="chendaniely" src="https://user-images.githubusercontent.com/29913247/41827999-514d0b22-783b-11e8-8a05-af7191b86f6c.png"></a></td>
-    <td><a href="https://sourcerer.io/lauragift21"><img width="84" alt="lauragift21" src="https://user-images.githubusercontent.com/29913247/41828000-5169ac8c-783b-11e8-9955-a3cb114c37f7.png"></a></td>
-    <td><a href="https://sourcerer.io/maracuja-juice"><img width="84" alt="maracuja-juice" src="https://user-images.githubusercontent.com/29913247/41828001-5184d8fe-783b-11e8-9d5f-ce57d208d7cd.png"></a></td>
+    <td><a href="https://sourcerer.io/chdemko"><img width="100" alt="chdemko" src="https://user-images.githubusercontent.com/29913247/41827998-512ef768-783b-11e8-9afd-f94fac1b2886.png"></a></td>
+    <td><a href="https://sourcerer.io/chendaniely"><img width="100" alt="chendaniely" src="https://user-images.githubusercontent.com/29913247/41827999-514d0b22-783b-11e8-8a05-af7191b86f6c.png"></a></td>
+    <td><a href="https://sourcerer.io/lauragift21"><img width="100" alt="lauragift21" src="https://user-images.githubusercontent.com/29913247/41828000-5169ac8c-783b-11e8-9955-a3cb114c37f7.png"></a></td>
+    <td><a href="https://sourcerer.io/maracuja-juice"><img width="100" alt="maracuja-juice" src="https://user-images.githubusercontent.com/29913247/41828001-5184d8fe-783b-11e8-9d5f-ce57d208d7cd.png"></a></td>
   </tr><tr>
-    <td><a href="https://sourcerer.io/marisbotero"><img width="84" alt="marisbotero" src="https://user-images.githubusercontent.com/29913247/41828002-519fb4a8-783b-11e8-98dd-ed3599b16a5a.png"></a></td>
-    <td><a href="https://sourcerer.io/nordes"><img width="84" alt="nordes" src="https://user-images.githubusercontent.com/29913247/41828003-51baff56-783b-11e8-883c-608fd476afc9.png"></a></td>
-    <td><a href="https://sourcerer.io/ppapadeas"><img width="84" alt="ppapadeas" src="https://user-images.githubusercontent.com/29913247/41828004-51d833f0-783b-11e8-9681-9725a7e3ed6a.png"></a></td>
-    <td><a href="https://sourcerer.io/praharshjain"><img width="84" alt="praharshjain" src="https://user-images.githubusercontent.com/29913247/41828005-51f4fb48-783b-11e8-9f29-071bef43909f.png"></a></td>
+    <td><a href="https://sourcerer.io/marisbotero"><img width="100" alt="marisbotero" src="https://user-images.githubusercontent.com/29913247/41828002-519fb4a8-783b-11e8-98dd-ed3599b16a5a.png"></a></td>
+    <td><a href="https://sourcerer.io/nordes"><img width="100" alt="nordes" src="https://user-images.githubusercontent.com/29913247/41828003-51baff56-783b-11e8-883c-608fd476afc9.png"></a></td>
+    <td><a href="https://sourcerer.io/ppapadeas"><img width="100" alt="ppapadeas" src="https://user-images.githubusercontent.com/29913247/41828004-51d833f0-783b-11e8-9681-9725a7e3ed6a.png"></a></td>
+    <td><a href="https://sourcerer.io/praharshjain"><img width="100" alt="praharshjain" src="https://user-images.githubusercontent.com/29913247/41828005-51f4fb48-783b-11e8-9f29-071bef43909f.png"></a></td>
 </tr>
 </table>
+</p>
 
 Requirements
 ============
