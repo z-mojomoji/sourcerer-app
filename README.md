@@ -11,7 +11,7 @@
 A visual profile for software engineers.
 <br>
 
-<img height="400" alt="sergey" src="https://user-images.githubusercontent.com/20287615/41826375-ffe3c62a-77dd-11e8-9352-62c8a8f476a6.gif">
+<img alt="sergey" src="https://user-images.githubusercontent.com/20287615/41826375-ffe3c62a-77dd-11e8-9352-62c8a8f476a6.gif">
 
 Features
 ========
