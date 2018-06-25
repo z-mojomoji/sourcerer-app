@@ -19,9 +19,9 @@ Features
 ========
 * Build profile automatically with a single click
 * Support of 100 languages (even exotic like COBOL)
-* More than 1000 libraries usage detection with per-line statistics
+* More than [1000 libraries](https://github.com/sourcerer-io/awesome-libraries) usage detection with per-line statistics
 * Visual repsentation of your developing experience
-* *Finally!* Summary of all repositories you've contributed too 
+* *Finally!* Summary of all repositories you've contributed too :tada:
 * Discover interesting facts about yourself
 * News that is relevant to your code
 
@@ -32,7 +32,6 @@ Creating your profile is just the first step for us at Sourcerer. Some of the th
 
 Get started
 ===========
-
 The easiest way to get started is with your open source repos. Go to [sourcerer.io/start](https://sourcerer.io/start), and select *Build with GitHub* and watch your profile build. 
 
 For closed source repos, you will need to use this app. If you already created an account using GitHub, you would have received an email with credentials for the app. If not, You will need a new account, which you can get at [sourcerer.io/join](https://sourcerer.io/join>).
@@ -67,7 +66,6 @@ or
 
 Usage
 =====
-
 To install sourcerer run the following command:
 
 ```
@@ -78,14 +76,27 @@ To run wizard use "sourcerer" command
 
 Internals
 =========
-
 The app looks at repos locally on your machine, and then sends stats to sourcerer.io. The best way to verify is to look at the code. Protobuf messages declared in [src/main/proto/sourcerer.proto](https://github.com/sourcerer-io/sourcerer-app/blob/develop/src/main/proto/sourcerer.proto) is a good start as it describes the client-server protocol.
 The Sourcerer app does **NOT** upload source code anywhere, and it **NEVER** will.
 
+FAQ
+===
+### How to process closed source repos?
+We process only public repos using GitHub OAuth. To process closed source repos you need to run sourcerer app locally. See [Get started](#get-started) for instructions. Sourcerer app sends only statistical information to our servers and never sends code.
+
+### Why do we need GitHub permissions?
+We use emails to indetify commits authorship, read orgs access to get list of public repositories that you've contributed to. You also need to grant access to read this public information from organization.
+
+### Other questions
+See [sourcerer.io/faq](https://sourcerer.io/faq).
+
+Contributing
+============
+We love contributions! Check out the [Contribution guide](https://github.com/sourcerer-io/sourcerer-app/blob/master/CONTRIBUTING.md) for more information. Simplest and really helpfull for the community would be contribution meta information to our [supported libraries list](https://github.com/sourcerer-io/awesome-libraries). If you an author of a library you show definitely add yours to the list or you can help to someone whose work you use.
+
 Build
 =====
-
-To build and run this application, you'll need latest versions of Git, Gradle and JDK installed on your computer. From your command line:
+To build and run this application locally, you'll need latest versions of Git, Gradle and JDK installed on your computer. From your command line:
 
 ```
 # Clone this repository
@@ -101,30 +112,13 @@ $ gradle build
 $ java -jar build/libs/sourcerer-app.jar
 ```
 
-FAQ
-===
+License
+=======
+Sourcerer is under the MIT license. See the [LICENSE](https://github.com/sourcerer-io/sourcerer-app/blob/develop/LICENSE.md) for more information.
 
-### How to process closed source repos?
-We process only public repos using GitHub OAuth. To process closed source repos you need to run sourcerer app locally. See [Get started](#get-started) for instructions. Sourcerer app sends only statistical information to our servers and never sends code.
-
-### Why do we need GitHub permissions?
-We use emails to indetify commits authorship, read orgs access to get list of public repositories that you've contributed to. You also need to grant access to read this public information from organization.
-
-### Other questions
-See [sourcerer.io/faq](https://sourcerer.io/faq).
-
-Contributing
-============
-
-We love contributions!  Check out the [Contribution guide](https://github.com/sourcerer-io/sourcerer-app/blob/master/CONTRIBUTING.md) for more information.
-
-Some handy links:<br>
+Handy links
+===========
 * [Sourcerer Site](https://sourcerer.io/)
 * [Sourcerer Blog](https://blog.sourcerer.io)
 * [Follow Sourcerer on Twitter](https://twitter.com/sourcerer_io)
 * [Follow Sourcerer on Facebook](https://www.facebook.com/sourcerer.io/)
-
-License
-=======
-
-Sourcerer is under the MIT license. See the [LICENSE](https://github.com/sourcerer-io/sourcerer-app/blob/develop/LICENSE.md) for more information.
