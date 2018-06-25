@@ -105,7 +105,7 @@ FAQ
 ===
 
 ### How to process closed source repos?
-We process only public repos using GitHub OAuth. To process closed source repos you need to run sourcerer app locally. See [Get started](/#get-started) for instructions. Sourcerer app sends only statistical information to our servers and never sends code.
+We process only public repos using GitHub OAuth. To process closed source repos you need to run sourcerer app locally. See [Get started](#get-started) for instructions. Sourcerer app sends only statistical information to our servers and never sends code.
 
 ### Why do we need GitHub permissions?
 We use emails to indetify commits authorship, read orgs access to get list of public repositories that you've contributed to. You also need to grant access to read this public information from organization.
