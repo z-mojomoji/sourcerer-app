@@ -72,7 +72,7 @@ To install sourcerer run the following command:
 curl -s https://sourcerer.io/app/install | bash
 ```
 
-To run wizard use "sourcerer" command
+To run wizard use `sourcerer` command
 
 Internals
 =========
