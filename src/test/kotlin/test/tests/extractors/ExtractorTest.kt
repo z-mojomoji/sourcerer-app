@@ -261,9 +261,9 @@ class ExtractorTest : Spek({
 
     given("github  url as import in go file") {
         it("extracts github url") {
-            val url = "\"github.com/astaxie/beego\""
+            val url = "github.com/astaxie/beego"
             val lines = listOf("import (",
-                "\"macagon\"", url, ")")
+                    "\"macagon\"", "\"" + url + "\"", ")")
             val actualLineImports = GoExtractor().extractImports(lines)
             assertTrue(url in actualLineImports)
         }

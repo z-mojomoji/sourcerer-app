@@ -42,7 +42,13 @@ class ClassifierManager {
             // Check line for usage of a library.
             val prediction = cache[libId]!!.evaluate(line)
             // Prediction based on two classes.
-            prediction[cache[libId]!!.libraries.indexOf(libId)] > 0.5
+            val prob = prediction[cache[libId]!!.libraries.indexOf(libId)]
+            // Libraries with no imports.
+            if (libId == "rb.rails") {
+                prob > 0.8
+            } else {
+                prob > 0.5
+            }
         }
     }
 
@@ -51,7 +57,8 @@ class ClassifierManager {
      */
     private fun downloadClassifier(libId: String) {
         val file = FileHelper.getFile(libId + DATA_EXT, CLASSIFIERS_DIR)
-        val url = "${BuildConfig.LIBRARY_MODELS_URL}$libId$DATA_EXT"
+        val langId = libId.split('.')[0]
+        val url = "${BuildConfig.LIBRARY_MODELS_URL}$langId/$libId$DATA_EXT"
         val builder = HttpClientBuilder.create()
         val client = builder.build()
         try {

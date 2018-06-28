@@ -53,7 +53,7 @@ buildConfig {
     buildConfigField 'boolean', 'IS_GA_ENABLED', 'true'
 
     // Models storage path.
-    buildConfigField 'String', 'LIBRARY_MODELS_URL', 'https://storage.googleapis.com/sourcerer-app/library-models/v2/classifiers/'
+    buildConfigField 'String', 'LIBRARY_MODELS_URL', 'https://storage.googleapis.com/sourcerer-app/library-models/v2/'
 
     // Hashing.
     buildConfigField 'boolean', 'COMMIT_HASHER_ENABLED', project.hasProperty('commit-hasher-enabled') ? project.property('commit-hasher-enabled').toString() : 'true'

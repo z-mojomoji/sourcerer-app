@@ -37,12 +37,12 @@ class Classifier {
             .map { (_, tfidf) -> tfidf * tfidf }
             .sum() + 1e-7)
         val output = if (libraries.size == 2) {
-            val firstLibProb = Math.exp(tokensWithWeight
+            val secondDecision = Math.exp(tokensWithWeight
                 .map { (token, tfidf) ->
                     tfidf / norm * weights[libraries[0]]!![token]!!
                 }
                 .sum() + biases[libraries[0]]!!)
-            listOf(firstLibProb, 1 - firstLibProb)
+            listOf(1.0, secondDecision)
         } else libraries.map {
             Math.exp(tokensWithWeight
                 .map { (token, tfidf) -> tfidf / norm * weights[it]!![token]!! }
