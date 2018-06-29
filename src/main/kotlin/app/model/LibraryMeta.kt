@@ -17,7 +17,7 @@ data class Library (
 class LibraryMeta (
     var langLibraries: HashMap<String, List<Library>> = hashMapOf()
 ){
-    var importToIndexMap: HashMap<String, Map<String, String>> = hashMapOf()
+    var importToIndexMap = buildImportToIndexMap(langLibraries)
 
     fun buildImportToIndexMap(langLibraries: HashMap<String, List<Library>>):
         HashMap<String, Map<String, String>> {
@@ -35,7 +35,7 @@ class LibraryMeta (
     }
 
     @Throws(InvalidParameterException::class)
-    constructor(proto: ClassifierProtos.LibrariesMeta): this() {
+    constructor(proto: ClassifierProtos.LibrariesMeta) : this() {
         val tempMap = proto.languagesList.associateBy({ lang -> lang.id },
             { lang ->
                 lang.librariesList.map { lib ->
@@ -47,7 +47,8 @@ class LibraryMeta (
     }
 
     @Throws(InvalidProtocolBufferException::class)
-    constructor(bytes: ByteArray) : this(ClassifierProtos.LibrariesMeta.parseFrom(bytes))
+    constructor(bytes: ByteArray) :
+        this(ClassifierProtos.LibrariesMeta.parseFrom(bytes))
 
     constructor(serialized: String) : this(serialized.toByteArray())
 
