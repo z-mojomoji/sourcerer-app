@@ -274,7 +274,9 @@ class ExtractorTest : Spek({
             var lines = listOf("// It doesn't use Ember 1")
             val extractor = JavascriptExtractor()
             var actualLineImports = extractor.extractImports(lines)
-            assertTrue(actualLineImports.isEmpty())
+            actualLineImports.forEach {
+                assertMapsNothing(it, Lang.JAVASCRIPT, extractor)
+            }
 
             lines = listOf("/* It doesn't use ember 2", "* and you Ember ",
                 "* too Ember */")
@@ -287,10 +289,11 @@ class ExtractorTest : Spek({
 
     given("Qt import in cpp file") {
         it("extracts library name") {
-            val lib = "cpp.Qt"
-            val line = "#include <QFileDialog>"
+            val lib = "cpp.qt"
+            val import = "QFileDialog"
+            val line = "#include <$import>"
             val extractor = CppExtractor()
-            assertExtractsImport(lib, line, extractor)
+            assertExtractsImport(import, line, extractor)
             val actualImport = extractor.extractImports(listOf(line))[0]
             assertMapsIndex(lib, actualImport, Lang.CPP, extractor)
         }
