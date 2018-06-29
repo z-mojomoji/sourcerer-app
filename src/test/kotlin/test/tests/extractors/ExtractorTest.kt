@@ -224,8 +224,8 @@ class ExtractorTest : Spek({
 
     given("line contains import") {
         it("kotlin extractor extracts import") {
-            val line = "import kategory.optics.*"
-            val import = "kategory"
+            val import = "kategory.optics."
+            val line = "import $import*"
             assertExtractsImport(import, line, KotlinExtractor())
         }
     }
