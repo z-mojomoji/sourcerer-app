@@ -7,6 +7,7 @@ package app.extractors
 import app.BuildConfig
 import app.Logger
 import app.model.Classifier
+import app.model.LibraryMeta
 import app.utils.FileHelper
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.impl.client.HttpClientBuilder
@@ -14,11 +15,14 @@ import java.io.FileOutputStream
 
 class ClassifierManager {
     companion object {
-        const val CLASSIFIERS_DIR = "classifiers"
-        const val DATA_EXT = ".pb"
+        private const val CLASSIFIERS_DIR = "classifiers"
+        private const val DATA_EXT = ".pb"
+        private const val LIBS_META_DIR = ClassifierManager.CLASSIFIERS_DIR
+        private const val LIBS_META_FILENAME = "libraries_meta.pb"
     }
 
     val cache = hashMapOf<String, Classifier>()
+    val libsMeta = getLibraryMeta()
 
     /**
      * Returns libraries used in a line.
@@ -85,5 +89,43 @@ class ClassifierManager {
         val bytesArray = FileHelper.getFile(libId + DATA_EXT, CLASSIFIERS_DIR)
             .readBytes()
         cache[libId] = Classifier(bytesArray)
+    }
+
+    /**
+     * Downloads libraries meta data from cloud.
+     */
+    private fun downloadLibrariesMeta() {
+        val file = FileHelper.getFile(LIBS_META_FILENAME, LIBS_META_DIR)
+        val url = BuildConfig.LIBRARY_MODELS_URL + LIBS_META_FILENAME
+        val builder = HttpClientBuilder.create()
+        val client = builder.build()
+        try {
+            client.execute(HttpGet(url)).use { response ->
+                val entity = response.entity
+                if (entity != null) {
+                    FileOutputStream(file).use { outstream ->
+                        entity.writeTo(outstream)
+                        outstream.flush()
+                        outstream.close()
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Logger.error(e, "Failed to download $LIBS_META_FILENAME")
+        }
+    }
+
+    /**
+     * Loads libraries meta data from local storage.
+     */
+    private fun getLibraryMeta(): LibraryMeta {
+        if (FileHelper.notExists(LIBS_META_FILENAME, LIBS_META_DIR)) {
+            Logger.info { "Downloading $LIBS_META_FILENAME" }
+            downloadLibrariesMeta()
+            Logger.info { "Finished downloading $LIBS_META_FILENAME" }
+        }
+        val bytesArray = FileHelper.getFile(LIBS_META_FILENAME,
+            LIBS_META_DIR).readBytes()
+        return LibraryMeta(bytesArray)
     }
 }

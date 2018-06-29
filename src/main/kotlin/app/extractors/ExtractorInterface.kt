@@ -4,13 +4,7 @@
 
 package app.extractors
 
-import app.BuildConfig
-import app.Logger
 import app.model.*
-import app.utils.FileHelper
-import org.apache.http.client.methods.HttpGet
-import org.apache.http.impl.client.HttpClientBuilder
-import java.io.FileOutputStream
 
 interface ExtractorInterface {
     companion object {
@@ -19,49 +13,12 @@ interface ExtractorInterface {
         const val TYPE_KEYWORD = 3
         const val TYPE_SYNTAX = 4
         const val SEPARATOR = ">"
-        const val LIBRARIES_META_DIR = ClassifierManager.CLASSIFIERS_DIR
-        const val LIBRARIES_META_FILENAME = "libraries_meta.pb"
 
         private val classifierManager = ClassifierManager()
-        // TODO (anatoly): Download libraries.
-        val librariesMeta = getLibraryMeta()
 
         val stringRegex = Regex("""(".+?"|'.+?')""")
         val splitRegex = Regex("""\s|,|;|\*|\n|\(|\)|\[|]|\{|}|\+|=|&|\$|""" +
             """!=|\.|>|<|#|@|:|\?|!""")
-
-        fun downloadLibrariesMeta() {
-            val file = FileHelper.getFile(LIBRARIES_META_FILENAME, LIBRARIES_META_DIR)
-            val url = "${BuildConfig.LIBRARY_MODELS_URL}$LIBRARIES_META_FILENAME"
-            val builder = HttpClientBuilder.create()
-            val client = builder.build()
-            try {
-                client.execute(HttpGet(url)).use { response ->
-                    val entity = response.entity
-                    if (entity != null) {
-                        FileOutputStream(file).use { outstream ->
-                            entity.writeTo(outstream)
-                            outstream.flush()
-                            outstream.close()
-                        }
-                    }
-
-                }
-            } catch (e: Exception) {
-                Logger.error(e, "Failed to download $LIBRARIES_META_FILENAME")
-            }
-        }
-
-        fun getLibraryMeta(): LibraryMeta {
-            if (FileHelper.notExists(LIBRARIES_META_FILENAME, LIBRARIES_META_DIR)) {
-                Logger.info { "Downloading $LIBRARIES_META_FILENAME" }
-                downloadLibrariesMeta()
-                Logger.info { "Finished downloading $LIBRARIES_META_FILENAME" }
-            }
-            val bytesArray = FileHelper.getFile(LIBRARIES_META_FILENAME, LIBRARIES_META_DIR)
-                    .readBytes()
-            return LibraryMeta(bytesArray)
-        }
     }
 
     // Identify libs used in a line with classifiers.
@@ -162,10 +119,11 @@ interface ExtractorInterface {
 
     fun mapImportToIndex(import: String, lang: String,
                          startsWith: Boolean = false): String? {
-        if (!librariesMeta.importToIndexMap.contains(lang)) return null
+        val libsMeta = classifierManager.libsMeta
+        if (!libsMeta.importToIndexMap.contains(lang)) return null
 
         if (startsWith) {
-            val map = librariesMeta.importToIndexMap[lang]
+            val map = libsMeta.importToIndexMap[lang]
             val baseImport = map!!.keys.find { import.startsWith(it) }
             if (baseImport != null) {
                 return map[baseImport]
@@ -174,7 +132,7 @@ interface ExtractorInterface {
             return null
         }
 
-        return librariesMeta.importToIndexMap[lang]!![import]
+        return libsMeta.importToIndexMap[lang]!![import]
     }
 
 }
