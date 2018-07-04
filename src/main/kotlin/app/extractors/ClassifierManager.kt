@@ -119,11 +119,10 @@ class ClassifierManager {
      * Loads libraries meta data from local storage.
      */
     private fun getLibraryMeta(): LibraryMeta {
-        if (FileHelper.notExists(LIBS_META_FILENAME, LIBS_META_DIR)) {
-            Logger.info { "Downloading $LIBS_META_FILENAME" }
-            downloadLibrariesMeta()
-            Logger.info { "Finished downloading $LIBS_META_FILENAME" }
-        }
+        Logger.info { "Downloading $LIBS_META_FILENAME" }
+        downloadLibrariesMeta()
+        Logger.info { "Finished downloading $LIBS_META_FILENAME" }
+
         val bytesArray = FileHelper.getFile(LIBS_META_FILENAME,
             LIBS_META_DIR).readBytes()
         return LibraryMeta(bytesArray)
